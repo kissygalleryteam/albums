@@ -1,0 +1,275 @@
+/*
+combined files : 
+
+./icons/icons.css
+*/
+
+
+/** generate by joycss v0.5.3, on time: 2013-09-15 17:31:07 */
+.album-big:hover,
+.icons:hover .album-big,
+.album-big,
+.album-small:hover,
+.icons:hover .album-small,
+.album-small,
+.ks-ext-close,
+.next-diabled,
+.next:hover,
+.icons:hover .next,
+.next,
+.prev-disabled,
+.prev:hover,
+.icons:hover .prev,
+.prev,
+.rotation-con:hover,
+.icons:hover .rotation-con,
+.rotation-con,
+.rotation-pro:hover,
+.icons:hover .rotation-pro,
+.rotation-pro {
+  background-image: url(http://gtms01.alicdn.com/tps/i1/T130yVFaFdXXbmZ.fS-270-252.png);
+  background-repeat: no-repeat;
+}
+.album-big:hover,
+.icons:hover .album-big {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: 0 0;
+}
+.album-big {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -62px -124px;
+}
+.album-small:hover,
+.icons:hover .album-small {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: 0 -62px;
+}
+.album-small {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -62px -62px;
+}
+.ks-ext-close {
+  width: 30px;
+  height: 25px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -228px -132px;
+}
+.next-diabled {
+  width: 32px;
+  height: 56px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: 0 -186px;
+}
+.next:hover,
+.icons:hover .next {
+  width: 32px;
+  height: 56px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -228px -66px;
+}
+.next {
+  width: 32px;
+  height: 56px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -42px -186px;
+}
+.prev-disabled {
+  width: 32px;
+  height: 56px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -186px 0;
+}
+.prev:hover,
+.icons:hover .prev {
+  width: 32px;
+  height: 56px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -186px -66px;
+}
+.prev {
+  width: 32px;
+  height: 56px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -228px 0;
+}
+.rotation-con:hover,
+.icons:hover .rotation-con {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: 0 -124px;
+}
+.rotation-con {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -124px -62px;
+}
+.rotation-pro:hover,
+.icons:hover .rotation-pro {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -124px 0;
+}
+.rotation-pro {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -62px 0;
+}
+
+
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+.albums-dialog {
+  background-color: #EFEFEF;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  _position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10003;
+  /*¹Ø±Õ°´Å¥*/
+
+}
+.albums-dialog .ks-contentbox {
+  padding: 30px;
+}
+.albums-dialog .album-loading {
+  background: url(http://img03.taobaocdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat center center #ffffff;
+}
+.albums-dialog .box-main {
+  position: relative;
+  overflow: hidden;
+  margin-right: 230px;
+  border: 10px solid #fff;
+  background-color: #fff;
+}
+.albums-dialog .box-main img {
+  -webkit-transition: -webkit-transform 0.25s linear;
+  -moz-transition: -moz-transform 0.25s linear;
+  -ms-transition: -ms-transform 0.25s linear;
+  -o-transition: -o-transform 0.25s linear;
+  transition: transform .25s linear;
+}
+.albums-dialog .box-aside {
+  width: 230px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #F5F5F5;
+}
+.albums-dialog .box-aside .aside-wrap {
+  padding: 10px;
+}
+.albums-dialog .box-aside .headline {
+  line-height: 38px;
+  font-size: 14px;
+  border-bottom: 1px solid #E0E0E0;
+}
+.albums-dialog .box-aside .headline .num {
+  font-size: 16px;
+  font-weight: bold;
+  padding-right: 10px;
+}
+.albums-dialog .box-aside .desc {
+  line-height: 2em;
+  padding-top: 8px;
+}
+.albums-dialog .box {
+  position: relative;
+  border: 7px solid #8F8F8F;
+}
+.albums-dialog .handers .next,
+.albums-dialog .handers .prev {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+  position: absolute;
+  z-index: 10;
+  top: 45%;
+  background-color: rgba(51, 51, 51, 0.6);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=#99333333, endColorstr=#99333333,GradientType=0 );
+  cursor: pointer;
+}
+.albums-dialog .handers .next:hover,
+.albums-dialog .handers .prev:hover {
+  background-color: rgba(51, 51, 51, 0.9);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=#E6333333, endColorstr=#E6333333,GradientType=0 );
+}
+.albums-dialog .handers .prev {
+  left: 45px;
+}
+.albums-dialog .handers .next {
+  right: 275px;
+}
+.albums-dialog .step-last .next,
+.albums-dialog .step-start .prev {
+  visibility: hidden;
+}
+.albums-dialog .ks-ext-close {
+  cursor: pointer;
+  position: absolute;
+  right: 43px;
+  top: 43px;
+}
+.albums-dialog .ks-ext-close .ks-ext-close-x {
+  visibility: hidden;
+}
+.albums-dialog .album-action-bar {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  z-index: 11;
+}

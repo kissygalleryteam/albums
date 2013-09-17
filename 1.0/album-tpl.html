@@ -1,0 +1,27 @@
+<div class="handers{{#if index === len - 1}} step-last{{/if}}{{#if index === 0}} step-start{{/if}}">
+  <span class="prev album-prev hander">&lt;</span>   
+  <span class="next album-next hander">&gt;</span>   
+</div>
+<div class="box">   
+  <div class="album-action-bar">
+    <a class="album-big action" data-action="zoom" href="#nowhere"></a>
+    <a class="album-small action" data-action="zoom" href="#nowhere"></a>
+    <a class="rotation-pro action" data-action="rotation-pro" href="#nowhere"></a>
+    <a class="rotation-con action" data-action="rotation-con" href="#nowhere"></a>
+  </div>
+  <div class="box-main album-loading" style="height: {{h - 20}}px">  
+    {{#if download}}
+      <a href="{{download}}"><img class="{{imgCls}}" src="{{src}}" alt="" /></a>
+    {{else}}
+      <img class="{{imgCls}}" src="{{src}}" style="display: none" alt="" />
+    {{/if}}
+  </div>   
+  <div class="box-aside" style="height: {{h}}px">   
+    <div class="aside-wrap">  
+      <div class="headline"><em class="J_num num">{{index + 1}}/{{len}}</em>{{title}}</div>  
+      {{#if desc}}
+      <p class="J_desc desc">{{prefix}}: {{{desc}}}</p>  
+      {{/if}}
+    </div>   
+  </div>   
+</div>

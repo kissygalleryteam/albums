@@ -1,0 +1,214 @@
+@import "./icons/icons.css";
+.pull-left() { float: left; }
+
+.clearfix {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.opacity(@opacity) {
+  opacity: @opacity / 100;
+  filter: ~"alpha(opacity=@{opacity})";
+}
+
+.rotate(@degree) {
+  @ms: @degree / 90;
+  -moz-transform: ~"rotate(@{degree}deg)";
+  -webkit-transform: ~"rotate(@{degree}deg)";
+  -ms-transform: ~"rotate(@{degree}deg)";  
+  -o-transform:  ~"rotate(@{degree}deg)";
+  transform: ~"rotate(@{degree}deg)";
+  filter: ~"progid:DXImageTransform.Microsoft.BasicImage(rotation=@{ms})"
+}
+
+.inline-block() {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+// Sizing shortcuts
+// -------------------------
+.size(@height, @width) {
+  width: @width;
+  height: @height;
+}
+.square(@size) {
+  .size(@size, @size);
+}
+
+.hide-text() {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.text-hide() {
+  text-indent: -9999em;
+}
+//背景透明.bgfade(#fff, 0.4);
+.bgfade(@color, @fade){
+  background-color: fadeout(@color, 100-@fade*100);
+  @rgbahex: ~`function(color, fade){var t = (Math.round(255*fade)).toString(16).toUpperCase();t=t.length==1?'0'+t:t;return '#'+t+color.substr(1)}("@{color}","@{fade}")`;
+  filter: ~"progid:DXImageTransform.Microsoft.gradient( startColorstr=@{rgbahex}, endColorstr=@{rgbahex},GradientType=0 )";
+}
+
+//border实现三角
+#arrow {
+  .common(){
+    width       : 0;
+    height      : 0;
+    font-size   : 0;
+    line-height : 0;
+  }
+  .top(@w, @h, @color) {
+    border-left: @w dashed transparent;
+    border-right: @w dashed transparent;
+    border-bottom: @h solid @color;
+  }
+
+  .bottom(@w, @h, @color) {
+    border-left: @w dashed transparent;
+    border-right: @w dashed transparent;
+    border-top: @h solid @color;
+  }
+
+  .right(@w, @h, @color) {
+    border-top: @w dashed transparent;
+    border-bottom: @w dashed transparent;
+    border-left: @h solid @color;
+  }
+
+  .left(@w, @h, @color) {
+    border-top: @w dashed transparent;
+    border-bottom: @w dashed transparent;
+    border-right: @h solid @color;
+  }
+}
+
+.albums-dialog {
+
+  background-color: #EFEFEF;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  _position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10003;
+
+  .ks-contentbox {
+    padding: 30px;
+  }
+
+  .album-loading {
+    background: url(http://img03.taobaocdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat center center #fff;
+  }
+
+  .box-main {
+    position: relative;
+    overflow: hidden;
+    margin-right: 230px;
+    border: 10px solid #fff;
+    background-color: #fff;
+
+    img {
+      -webkit-transition: -webkit-transform .25s linear;
+      -moz-transition: -moz-transform .25s linear;
+      -ms-transition: -ms-transform .25s linear;
+      -o-transition: -o-transform .25s linear;
+      transition: transform .25s linear;
+    }
+  }
+
+  .box-aside {
+    width: 230px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #F5F5F5;
+
+    .aside-wrap {
+      padding: 10px;
+    }
+
+    .headline {
+
+      line-height: 38px;
+      font-size: 14px;
+      border-bottom: 1px solid #E0E0E0;
+
+      .num {
+        font-size: 16px;
+        font-weight: bold;
+        padding-right: 10px;
+      }
+    }
+
+    .desc {
+      line-height: 2em;
+      padding-top: 8px;
+    }
+
+  }
+
+  .box {
+    position: relative;
+    border: 7px solid #8F8F8F;
+  }
+
+  .handers {
+
+    .next, .prev {
+      .hide-text();
+      position: absolute;
+      z-index: 10;
+      top: 45%;
+      .bgfade(#333, 0.6);
+      cursor: pointer;
+
+      &:hover {
+        .bgfade(#333, 0.9);
+      }
+
+    }
+
+    .prev { left: 45px; }
+
+    .next { right: 275px; }
+
+
+  }
+
+  .step-last .next, 
+  .step-start .prev {
+    visibility: hidden;
+  }
+
+  /*关闭按钮*/
+  .ks-ext-close {
+
+    cursor: pointer;
+    position: absolute;
+    right: 43px;
+    top: 43px;
+
+    .ks-ext-close-x { visibility: hidden; }
+
+  }
+
+  .album-action-bar {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 11;
+  }
+
+}

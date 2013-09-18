@@ -125,7 +125,7 @@ KISSY.add('gallery/albums/1.0/rotate',function(S){
     if (scale === undefined) scale = 1;
 
     if (S.UA.ie && S.UA.ie < 9) {
-      css = cssIE(degree);
+      css = cssIE(degree, scale);
     } else {
       css = cssRotate(degree, scale);
     }
@@ -134,11 +134,11 @@ KISSY.add('gallery/albums/1.0/rotate',function(S){
 
   }
 
-  function cssIE(degree){
+  function cssIE(degree, scale){
     degree = degree / 180 * Math.PI;
-    var costheta = Math.cos(degree);
-    var sintheta = Math.sin(degree);
-    var sinthetaN = - Math.sin(degree);
+    var costheta = Math.cos(degree) * scale;
+    var sintheta = Math.sin(degree) * scale;
+    var sinthetaN = - Math.sin(degree) * scale;
     var filter = "progid:DXImageTransform.Microsoft.Matrix(M11={costheta},M12={sinthetaN},M21={sintheta},M22={costheta},SizingMethod='auto expand')";
     filter = S.substitute(filter, { costheta: costheta, sintheta: sintheta, sinthetaN: sinthetaN });
     return { filter: filter };
@@ -185,6 +185,7 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, TPL
    */
   function Albums(comConfig) {
     var self = this;
+    debugger;
     //调用父类构造函数
     Albums.superclass.constructor.call(self, comConfig);
     self.init();
@@ -385,18 +386,13 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, TPL
 
         if (h / viewH > w / viewW) {
           zoomFit = viewH / h;
-          css.top = - (h - viewH) / 2;
-          css.left = (viewW - w ) / 2;
-          //css.top = (viewW - w * zoomFit) / 2;
-          //el.attr('height', viewH);
-          //el.removeAttr('width');
+          //css.top = - (h - viewH) / 2;
+          //css.left = (viewW - w ) / 2;
+          css.left = (viewW - w * zoomFit) / 2;
         } else {
           zoomFit = viewW / w;
           css.top = (viewH - h) / 2;
           css.left = - (w - viewW) / 2;
-          //css.top = (viewH - h * (viewW / w)) / 2;
-          //el.attr('width', viewW);
-          //el.removeAttr('height');
         }
 
       } else {

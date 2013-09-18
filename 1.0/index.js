@@ -18,6 +18,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
    */
   function Albums(comConfig) {
     var self = this;
+    debugger;
     //调用父类构造函数
     Albums.superclass.constructor.call(self, comConfig);
     self.init();

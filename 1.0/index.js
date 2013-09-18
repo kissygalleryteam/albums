@@ -261,6 +261,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
     //显示图片
     _show: function(evt, callback){
 
+      this.set('rotation', 0);
       var target = evt.target;
       var url = $(target).attr('data-original-url');
 

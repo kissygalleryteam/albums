@@ -219,9 +219,9 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
         if (h / viewH > w / viewW) {
           zoomFit = viewH / h;
-          //css.top = - (h - viewH) / 2;
-          //css.left = (viewW - w ) / 2;
-          css.left = (viewW - w * zoomFit) / 2;
+          css.top = - (h - viewH) / 2;
+          css.left = (viewW - w ) / 2;
+          //css.left = (viewW - w * zoomFit) / 2;
         } else {
           zoomFit = viewW / w;
           css.top = (viewH - h) / 2;

@@ -88,13 +88,13 @@ KISSY.add('gallery/albums/1.0/dialog',function(S, Overlay, DD){
 
     contentEl.delegate('click', '.action', distribution('action'));
 
-    S.Event.on(window, 'resize', S.throttle(function(){
+    S.Event.on(window, 'resize', function(){
         if (dialog.get('visible')) {
           var id = dialog.get('album-id');
           dialog.fire('resize:' + id);
           winBox = {};
         }
-    }, 100, this));
+    });
 
     S.Event.on(document, 'keyup', function(e){
       if (dialog.get('visible')) {
@@ -185,7 +185,6 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, TPL
    */
   function Albums(comConfig) {
     var self = this;
-    debugger;
     //调用父类构造函数
     Albums.superclass.constructor.call(self, comConfig);
     self.init();

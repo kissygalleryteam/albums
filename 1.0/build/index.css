@@ -5,7 +5,7 @@ combined files :
 */
 
 
-/** generate by joycss v0.5.3, on time: 2013-09-15 17:31:07 */
+/** generate by joycss v0.5.3, on time: 2013-09-22 16:07:31 */
 .album-big:hover,
 .icons:hover .album-big,
 .album-big,
@@ -13,11 +13,9 @@ combined files :
 .icons:hover .album-small,
 .album-small,
 .ks-ext-close,
-.next-diabled,
 .next:hover,
 .icons:hover .next,
 .next,
-.prev-disabled,
 .prev:hover,
 .icons:hover .prev,
 .prev,
@@ -27,7 +25,7 @@ combined files :
 .rotation-pro:hover,
 .icons:hover .rotation-pro,
 .rotation-pro {
-  background-image: url(http://gtms01.alicdn.com/tps/i1/T130yVFaFdXXbmZ.fS-270-252.png);
+  background-image: url(http://gtms01.alicdn.com/tps/i1/T1c3C3FfBcXXXRy1nV-268-186.png);
   background-repeat: no-repeat;
 }
 .album-big:hover,
@@ -45,7 +43,7 @@ combined files :
   display: inline-block;
   *zoom: 1;
   *display: inline;
-  background-position: -62px -124px;
+  background-position: 0 -124px;
 }
 .album-small:hover,
 .icons:hover .album-small {
@@ -70,57 +68,41 @@ combined files :
   display: inline-block;
   *zoom: 1;
   *display: inline;
-  background-position: -228px -132px;
-}
-.next-diabled {
-  width: 32px;
-  height: 56px;
-  display: inline-block;
-  *zoom: 1;
-  *display: inline;
-  background-position: 0 -186px;
+  background-position: -227px -128px;
 }
 .next:hover,
 .icons:hover .next {
-  width: 32px;
-  height: 56px;
+  width: 31px;
+  height: 54px;
   display: inline-block;
   *zoom: 1;
   *display: inline;
-  background-position: -228px -66px;
+  background-position: -227px 0;
 }
 .next {
-  width: 32px;
-  height: 56px;
+  width: 31px;
+  height: 54px;
   display: inline-block;
   *zoom: 1;
   *display: inline;
-  background-position: -42px -186px;
+  background-position: -227px -64px;
 }
-.prev-disabled {
-  width: 32px;
-  height: 56px;
+.prev:hover,
+.icons:hover .prev {
+  width: 31px;
+  height: 54px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -186px -64px;
+}
+.prev {
+  width: 31px;
+  height: 54px;
   display: inline-block;
   *zoom: 1;
   *display: inline;
   background-position: -186px 0;
-}
-.prev:hover,
-.icons:hover .prev {
-  width: 32px;
-  height: 56px;
-  display: inline-block;
-  *zoom: 1;
-  *display: inline;
-  background-position: -186px -66px;
-}
-.prev {
-  width: 32px;
-  height: 56px;
-  display: inline-block;
-  *zoom: 1;
-  *display: inline;
-  background-position: -228px 0;
 }
 .rotation-con:hover,
 .icons:hover .rotation-con {
@@ -129,7 +111,7 @@ combined files :
   display: inline-block;
   *zoom: 1;
   *display: inline;
-  background-position: 0 -124px;
+  background-position: -62px -124px;
 }
 .rotation-con {
   width: 52px;
@@ -239,16 +221,7 @@ combined files :
   position: absolute;
   z-index: 10;
   top: 45%;
-  background-color: rgba(51, 51, 51, 0.6);
-  /*filter: ~"progid:DXImageTransform.Microsoft.gradient( startColorstr=@{rgbahex}, endColorstr=@{rgbahex},GradientType=0 )";*/
-
   cursor: pointer;
-}
-.albums-dialog .handers .next:hover,
-.albums-dialog .handers .prev:hover {
-  background-color: rgba(51, 51, 51, 0.9);
-  /*filter: ~"progid:DXImageTransform.Microsoft.gradient( startColorstr=@{rgbahex}, endColorstr=@{rgbahex},GradientType=0 )";*/
-
 }
 .albums-dialog .handers .prev {
   left: 45px;
@@ -272,6 +245,6 @@ combined files :
 .albums-dialog .album-action-bar {
   position: absolute;
   bottom: 5px;
-  right: 5px;
+  left: 5px;
   z-index: 11;
 }

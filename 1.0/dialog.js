@@ -54,7 +54,7 @@ KISSY.add(function(S, Overlay, DD){
     if (!winBox.height) {
       winBox.height = S.DOM.viewportHeight();
     }
-    return winBox.height;
+    return S.DOM.viewportHeight();
   };
 
   dialog.getWinWidth = function(){
@@ -73,11 +73,18 @@ KISSY.add(function(S, Overlay, DD){
 
     contentEl.delegate('click', '.action', distribution('action'));
 
+    var hander;
+
     S.Event.on(window, 'resize', function(){
         if (dialog.get('visible')) {
-          var id = dialog.get('album-id');
-          dialog.fire('resize:' + id);
-          winBox = {};
+          hander && hander.cancel();
+
+          hander = S.later(function(){
+            winBox = {};
+            var id = dialog.get('album-id');
+            dialog.fire('resize:' + id);
+          }, 100);
+
         }
     });
 

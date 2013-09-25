@@ -11,7 +11,11 @@
   clear: both;
 }
 .albums-dialog {
-  background-color: #EFEFEF;
+  /*background-color: #EFEFEF;*/
+
+  background-color: rgba(0, 0, 0, 0.5);
+  /*filter: ~"progid:DXImageTransform.Microsoft.gradient( startColorstr=@{rgbahex}, endColorstr=@{rgbahex},GradientType=0 )";*/
+
   width: 100%;
   height: 100%;
   position: fixed;

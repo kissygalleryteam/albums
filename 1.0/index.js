@@ -130,7 +130,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       var viewH = dialog.getWinHeight() - 74 - 20;
       dialog.get('contentEl').all('.box-main').height(viewH - 20);
       dialog.get('contentEl').all('.box-aside').height(viewH);
-      this._position(el, true);
+      this._position(el, 1);
     },
 
     // 处理上一个和下一个
@@ -234,7 +234,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
       }
 
-      if (!noAnim) {
+      if (!noAnim || noAnim === 1) {
         css = S.mix(rotate(0, zoomFit), css);
       }
 
@@ -321,7 +321,10 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       var len = this.get('imgList').length;
       var index = this.get('index') + step;
 
-      //超出边界值
+      //边界值检测
+      if (index === -1) index = len - 1;
+      if (index === len) index = 0;
+
       if (index < 0 || index > len - 1) {
         return;
       }

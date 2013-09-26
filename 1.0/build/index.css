@@ -240,8 +240,8 @@ combined files :
 .albums-dialog .ks-ext-close {
   cursor: pointer;
   position: absolute;
-  right: 43px;
-  top: 43px;
+  right: 47px;
+  top: 52px;
 }
 .albums-dialog .ks-ext-close .ks-ext-close-x {
   visibility: hidden;

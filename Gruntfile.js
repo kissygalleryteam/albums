@@ -68,6 +68,19 @@ module.exports = function(grunt) {
                 dest:'<%= pkg.version %>/build/',
                 ext:'-min.css'
             }
+        },
+        ktpl: {
+          main: {
+            files: [
+              {
+                expand:true,
+                cwd:'<%= pkg.version %>/',
+                src:['*-tpl.html'],
+                dest: '<%= pkg.version %>/',
+                ext: '.js'
+              }
+            ]
+          }
         }
         
     });
@@ -77,5 +90,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-css-combo');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-kmc');
-    return grunt.registerTask('default', ['kmc', 'uglify', 'css_combo', 'cssmin']);
+    grunt.loadNpmTasks('grunt-kissy-template');
+    return grunt.registerTask('default', ['ktpl', 'kmc', 'uglify', 'css_combo', 'cssmin']);
 };

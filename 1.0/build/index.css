@@ -155,8 +155,7 @@ combined files :
   /*background-color: #EFEFEF;*/
 
   background-color: rgba(0, 0, 0, 0.5);
-  /*filter: ~"progid:DXImageTransform.Microsoft.gradient( startColorstr=@{rgbahex}, endColorstr=@{rgbahex},GradientType=0 )";*/
-
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=#80000000, endColorstr=#80000000,GradientType=0 );
   width: 100%;
   height: 100%;
   position: fixed;

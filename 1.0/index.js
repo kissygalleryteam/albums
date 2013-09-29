@@ -3,7 +3,7 @@
  * @author hanwen.sah<hanwen.sah@taobao.com>
  * @module albums
  **/
-KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate) {
+KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate, Thumb) {
 
   var EMPTY = '';
   var $ = Node.all;
@@ -52,6 +52,9 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       dialog.render();
 
       this._bindEvent();
+      this.dialog = dialog;
+
+      this.plug(Thumb);
 
     },
 
@@ -170,11 +173,11 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       } else {
 
         var rotation = this.get('rotation');
-        var zoomFit = this.get('zoomFit');
-        var css = rotate(rotation, zoomFit);
+        var zoom = this.get('zoom');
+        var css = rotate(rotation, zoom);
         el.css(css);
 
-        this.set('scale', zoomFit);
+        this.set('scale', zoom);
         this._position(el, true);
 
       }
@@ -212,17 +215,17 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       };
 
       //适合缩放比例
-      var zoomFit = 1;
+      var zoom = 1;
       var ie = S.UA.ie;
 
       if (h > viewH || w > viewW) {
 
         if (h / viewH > w / viewW) {
 
-          zoomFit = viewH / h;
+          zoom = viewH / h;
 
           if (ie && ie < 9) {
-            css.left = (viewW - w * zoomFit) / 2;
+            css.left = (viewW - w * zoom) / 2;
           } else {
             css.top = - (h - viewH) / 2;
             css.left = (viewW - w ) / 2;
@@ -230,10 +233,10 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
         } else {
 
-          zoomFit = viewW / w;
+          zoom = viewW / w;
 
           if (ie && ie < 9) {
-            css.top = (viewH - h * zoomFit) / 2;
+            css.top = (viewH - h * zoom) / 2;
           } else {
             css.top = (viewH - h) / 2;
             css.left = - (w - viewW) / 2;
@@ -249,7 +252,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       }
 
       if (!noAnim || noAnim === 1) {
-        css = S.mix(rotate(0, zoomFit), css);
+        css = S.mix(rotate(0, zoom), css);
       }
 
       el.css(css);
@@ -258,8 +261,10 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
         el.fadeIn();
       }
 
-      this.set('zoomFit', zoomFit);
-      this.set('scale', zoomFit);
+      this.set('zoom', zoom);
+      this.set('box', { view: [viewW, viewH], img: [w, h] } );
+      this.set('position', [css.left, css.top]);
+      this.set('scale', zoom);
     },
 
     /**
@@ -318,6 +323,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       el.on('load', function(){
         el.data('loaded', true);
         self._position(el);
+        //self.fire('img:load', getNaturlWidth(el));
         callback && callback();
       });
 
@@ -381,6 +387,8 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
     index: { value: 0 },
 
+    box: { value: {} },
+
     datas: { 
       value: { prefix: "图片说明" }
     },
@@ -400,12 +408,13 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
 }, {requires:[
   'node', 
-  'base', 
+  'rich-base', 
   'overlay',
   'anim',
   './album-tpl',
   'xtemplate',
   './dialog',
   './rotate',
+  './plugin/thumb',
   './index.css'
 ]});

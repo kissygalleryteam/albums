@@ -15,18 +15,18 @@ KISSY.add(function(S, Overlay, DD){
       e.halt();
     })
     S.all('html').css('overflow-y', 'hidden')
-
-    renderDD();
+    dialog.stopDD();
 
   });
 
-  function renderDD(){
+  var delegate;
 
-    drag && drag.destroy();
+  function renderDD(contentEl){
 
-    drag = new DD.Draggable({
-      node: contentEl.all('.J_img'),
-      move: true
+    delegate = new DD.DraggableDelegate({
+      container: contentEl,
+      selector: '.J_img',
+      move: false
     });
 
   }
@@ -39,7 +39,7 @@ KISSY.add(function(S, Overlay, DD){
 
   });
 
-  dialog.on('change:step', renderDD);
+  dialog.on('change:step', dialog.stopDD);
 
   function distribution(name){
     return function(e){
@@ -63,6 +63,9 @@ KISSY.add(function(S, Overlay, DD){
     }
     return winBox.width;
   };
+
+  dialog.startDD = function(){ delegate.set('move', true);  return delegate; };
+  dialog.stopDD = function(){ delegate.set('move', false); };
 
   //dom渲染完成后
   dialog.on('afterRenderUI', function(){
@@ -99,6 +102,7 @@ KISSY.add(function(S, Overlay, DD){
       }
     });
 
+    renderDD(contentEl);
 
   });
 

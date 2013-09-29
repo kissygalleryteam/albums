@@ -113,6 +113,36 @@
     background: url(http://img03.taobaocdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat center center #fff;
   }
 
+  .album-preview-box {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    border: 1px solid #808080;
+    left: 10px;
+    top: 10px;
+    z-index: 2;
+    overflow: hidden;
+    visibility: hidden;
+    background-color: #000;
+
+    img {
+      position: absolute;
+      max-width: 150px;
+      max-height: 150px;
+    }
+
+  }
+
+  .album-thumb {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    top: -150px;
+    left: -140px;
+    border: 150px solid rgba(0,0,0, 0.4);
+  }
+
   .box-main {
     position: relative;
     overflow: hidden;

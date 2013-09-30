@@ -30,39 +30,37 @@ KISSY.add(function(){
     _proxy: function(e){
 
       var zoom = this.zoom;
+      //目标地址
       var pos = { left: e.left, top: e.top };
 
-      var left = e.left * zoom;
-      var top = e.top * zoom;
       var preview = {
-        left: this.preview.left,
-        top: this.preview.top
-      }
-      preview.left -= left;
-      preview.top -= top;
+        left: - 150 + (30 + 7 + 10 - pos.left) * zoom,
+        top: - 150 + (30 + 7 + 10 - pos.top) * zoom,
+      };
 
       var boundary = this.boundary;
 
       var outBoundary = false;
 
-      if (preview.left > boundary.left[1]){
-        // left值减去超过的边界，比例是zoom
-        pos.left += (preview.left - boundary.left[1]) / zoom;
-        preview.left = boundary.left[1];
+      if (pos.left < boundary.viewRight){
+        pos.left = boundary.viewRight;
+        preview.left = -150 + (30 + 7 + 10 - pos.left) * zoom;
         outBoundary = true;
-      } else if (preview.left < boundary.left[0]) {
-        pos.left += (preview.left - boundary.left[0]) / zoom;
-        preview.left = boundary.left[0];
+      } else if (pos.left >= boundary.viewLeft) {
+        pos.left = boundary.viewLeft;
+        preview.left = -150;
         outBoundary = true;
       } 
 
-      if (preview.top > boundary.top[1]) {
-        pos.top += (preview.top - boundary.top[1]) / zoom;
-        preview.top = boundary.top[1];
+      if (pos.top < boundary.viewBottom) {
+        pos.top = boundary.viewBottom;
+        //preview.top = boundary.top[1];
+        preview.top = -150 + (30 + 7 + 10 - pos.top) * zoom;
         outBoundary = true;
-      } else if (preview.top < boundary.top[0]) {
-        pos.top += (preview.top - boundary.top[0]) / zoom;
-        preview.top = boundary.top[0];
+      } else if (pos.top > boundary.viewTop) {
+        pos.top = boundary.viewTop;
+        //preview.top = boundary.top[0];
+        preview.top = -150;
         outBoundary = true;
       }
 
@@ -83,6 +81,7 @@ KISSY.add(function(){
       var viewH = 150, viewW = 150;
       var host = this.host;
       var box = host.get('box');
+      var contentEl = this.dialog.get('contentEl');
 
       //图片实际大小
       var imgW = box.img[0], imgH = box.img[1];
@@ -107,20 +106,53 @@ KISSY.add(function(){
         zoom = thumbW / imgW;
         thumbH = zoom * imgH;
 
-        //this._getPreviewBox(thumbW, thumbH);
         css.top = (viewH - thumbH) / 2;
 
       }
 
       var boundary = {
         left: [ -150 + css.left ],
-        top: [ -150 + css.top ]
+        top: [ -150 + css.top ],
+        distance: [0, 0]
       };
 
       preview = {
         width: zoom * box.view[0] / host.get('scale'),
         height: zoom * box.view[1] / host.get('scale')
       };
+      
+      var position = host.get('position');
+
+      //如果预览窗口高度大于缩略图高度
+      if (preview.height > thumbH) {
+
+        // top保持不变
+        boundary.viewTop = position[1] + 30 + 7 + 10;
+        boundary.viewBottom = boundary.viewTop;
+
+        boundary.viewLeft = 30 + 7 + 10;
+        boundary.viewRight = boundary.viewLeft - (imgW - box.view[0]);
+
+        boundary.distance[1] = (preview.height - thumbH);
+        preview.top += boundary.distance[1] / 2;
+        preview.height = thumbH;
+      }
+
+      //如果预览窗口宽度大于缩略图宽度
+      if (preview.width > thumbW) {
+
+        // left保持不变
+        boundary.viewLeft = (box.view[0] - imgW * host.get('scale')) / 2 + 30 + 7 + 10;
+        boundary.viewRight = boundary.viewLeft;
+
+        // top offset
+        boundary.viewTop = 30 + 7 + 10;
+        boundary.viewBottom = boundary.viewTop - (imgH * host.get('scale') - box.view[1]);
+
+        boundary.distance[0] = (preview.width - thumbW);
+        preview.top += boundary.distance[0] / 2;
+        preview.width = thumbW;
+      }
 
       preview.left = boundary.left[0] + (thumbW - preview.width) / 2 ;
       preview.top = boundary.top[0] + (thumbH - preview.height) / 2;
@@ -132,7 +164,6 @@ KISSY.add(function(){
       this.boundary = boundary;
       console.log(boundary);
 
-      var contentEl = this.dialog.get('contentEl');
       contentEl.all('.J_preivew_img').css(css);
       contentEl.all('.album-thumb').css(preview);
       contentEl.all('.album-preview-box').css('visibility', 'visible');

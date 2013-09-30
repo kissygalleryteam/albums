@@ -202,7 +202,8 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       var box = getNaturlWidth(el);
 
       var viewH = dialog.getWinHeight() - 74 - 20;
-      var viewW = dialog.getWinWidth() - 74 - 235 - 20;
+      // 14px边距，60px外边距，20px内边距，230px
+      var viewW = dialog.getWinWidth() - 14 - 60 - 230 - 20;
       var h = box.height;
       var w = box.width;
       var top = 0, left = 0;

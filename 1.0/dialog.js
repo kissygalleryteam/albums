@@ -12,8 +12,10 @@ KISSY.add(function(S, Overlay, DD){
   dialog.on('show', function(){
 
     S.Event.on(window, 'mousewheel', function(e){
+      var id = dialog.get('album-id');
+      dialog.fire('wheel:' + id, { wheel: [e.deltaX, e.deltaY] });
       e.halt();
-    })
+    });
     S.all('html').css('overflow-y', 'hidden')
     dialog.stopDD();
 

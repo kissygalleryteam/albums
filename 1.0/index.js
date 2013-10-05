@@ -130,7 +130,8 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
     _resize: function(){
       var el = dialog.get('contentEl').all('.J_img');
-      var viewH = dialog.getWinHeight() - 74 - 20;
+      var padding = this.get('padding');
+      var viewH = dialog.getWinHeight() - padding[0] - padding[2];
       dialog.get('contentEl').all('.box-main').height(viewH - 20);
       dialog.get('contentEl').all('.box-aside').height(viewH);
       this._position(el, 1);
@@ -200,10 +201,11 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       if (!el.data('loaded')) return;
 
       var box = getNaturlWidth(el);
+      var padding = this.get('padding');
 
-      var viewH = dialog.getWinHeight() - 74 - 20;
+      var viewH = dialog.getWinHeight() - padding[0] - padding[2];
       // 14px边距，60px外边距，20px内边距，230px
-      var viewW = dialog.getWinWidth() - 14 - 60 - 230 - 20;
+      var viewW = dialog.getWinWidth() - padding[1] - padding[3];
       var h = box.height;
       var w = box.width;
       var top = 0, left = 0;
@@ -395,6 +397,9 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
     },
 
     template: { value: HTML_BODY },
+
+    //边距，和css的padding顺序一致，上左下右
+    padding: { value: [ 47, 47 + 240, 47, 47] },
 
     id: { setter: function(){ return S.guid(); }},
 

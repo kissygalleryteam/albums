@@ -33,36 +33,30 @@ KISSY.add(function(){
       //目标地址
       var pos = { left: e.left, top: e.top };
 
-      var preview = {
-        left: - 150 + (30 + 7 + 10 - pos.left) * zoom,
-        top: - 150 + (30 + 7 + 10 - pos.top) * zoom,
-      };
-
       var boundary = this.boundary;
+
+      var preview = {};
 
       var outBoundary = false;
 
       if (pos.left < boundary.viewRight){
         pos.left = boundary.viewRight;
-        preview.left = -150 + (30 + 7 + 10 - pos.left) * zoom;
         outBoundary = true;
       } else if (pos.left >= boundary.viewLeft) {
         pos.left = boundary.viewLeft;
-        preview.left = -150;
         outBoundary = true;
       } 
 
       if (pos.top < boundary.viewBottom) {
         pos.top = boundary.viewBottom;
-        //preview.top = boundary.top[1];
-        preview.top = -150 + (30 + 7 + 10 - pos.top) * zoom;
         outBoundary = true;
       } else if (pos.top > boundary.viewTop) {
         pos.top = boundary.viewTop;
-        //preview.top = boundary.top[0];
-        preview.top = -150;
         outBoundary = true;
       }
+
+      preview.top = -150 + (30 + 7 + 10 - pos.top) * zoom + boundary.distance[1];
+      preview.left = -150 + (30 + 7 + 10 - pos.left) * zoom + boundary.distance[0];
 
       if ( outBoundary ) {
         e.drag.setInternal('actualPos', pos);
@@ -82,14 +76,19 @@ KISSY.add(function(){
       var host = this.host;
       var box = host.get('box');
       var contentEl = this.dialog.get('contentEl');
+      var scale = host.get('scale');
 
       //图片实际大小
-      var imgW = box.img[0], imgH = box.img[1];
+      var imgW = box.img[0] * scale, imgH = box.img[1] * scale;
       //缩略图大小
       var thumbW, thumbH;
 
       var css = { top: 0, left: 0 };
       var zoom, preview;
+
+      var boundary = {
+        distance: [0, 0]
+      };
 
       if (imgH / viewH > imgW / viewW) {
 
@@ -97,8 +96,8 @@ KISSY.add(function(){
         zoom = thumbH / imgH;
         thumbW = zoom * imgW;
 
+        boundary.distance[0] = (150 - thumbW) / 2;
         css.left = (viewW - thumbW) / 2;
-
 
       } else {
 
@@ -106,22 +105,26 @@ KISSY.add(function(){
         zoom = thumbW / imgW;
         thumbH = zoom * imgH;
 
+        boundary.distance[1] = (150 - thumbH) / 2;
         css.top = (viewH - thumbH) / 2;
 
       }
 
-      var boundary = {
-        left: [ -150 + css.left ],
-        top: [ -150 + css.top ],
-        distance: [0, 0]
-      };
 
       preview = {
-        width: zoom * box.view[0] / host.get('scale'),
-        height: zoom * box.view[1] / host.get('scale')
+        width: zoom * box.view[0],
+        height: zoom * box.view[1]
       };
       
       var position = host.get('position');
+
+      // left
+      boundary.viewLeft = 30 + 7 + 10;
+      boundary.viewRight = boundary.viewLeft - (imgW - box.view[0]);
+
+      // top offset
+      boundary.viewTop = 30 + 7 + 10;
+      boundary.viewBottom = boundary.viewTop - (imgH - box.view[1]);
 
       //如果预览窗口高度大于缩略图高度
       if (preview.height > thumbH) {
@@ -130,39 +133,25 @@ KISSY.add(function(){
         boundary.viewTop = position[1] + 30 + 7 + 10;
         boundary.viewBottom = boundary.viewTop;
 
-        boundary.viewLeft = 30 + 7 + 10;
-        boundary.viewRight = boundary.viewLeft - (imgW - box.view[0]);
-
-        boundary.distance[1] = (preview.height - thumbH);
-        preview.top += boundary.distance[1] / 2;
+        boundary.distance[1] += (preview.height - thumbH) / 2;
         preview.height = thumbH;
-      }
 
-      //如果预览窗口宽度大于缩略图宽度
-      if (preview.width > thumbW) {
+      } else if (preview.width > thumbW) {
+        //如果预览窗口宽度大于缩略图宽度 
 
         // left保持不变
-        boundary.viewLeft = (box.view[0] - imgW * host.get('scale')) / 2 + 30 + 7 + 10;
+        boundary.viewLeft = position[0] + 30 + 7 + 10;
         boundary.viewRight = boundary.viewLeft;
 
-        // top offset
-        boundary.viewTop = 30 + 7 + 10;
-        boundary.viewBottom = boundary.viewTop - (imgH * host.get('scale') - box.view[1]);
-
-        boundary.distance[0] = (preview.width - thumbW);
-        preview.top += boundary.distance[0] / 2;
+        boundary.distance[0] += (preview.width - thumbW) / 2;
         preview.width = thumbW;
+
       }
 
-      preview.left = boundary.left[0] + (thumbW - preview.width) / 2 ;
-      preview.top = boundary.top[0] + (thumbH - preview.height) / 2;
-
-      boundary.left[1] = boundary.left[0] + thumbW - preview.width;
-      boundary.top[1] = boundary.top[0] + thumbH - preview.height;
-
+      preview.left = - 150 - (box.view[0] - imgW) / 2 * zoom + boundary.distance[0];
+      preview.top = - 150 - (box.view[1] - imgH) / 2  * zoom + boundary.distance[1];
 
       this.boundary = boundary;
-      console.log(boundary);
 
       contentEl.all('.J_preivew_img').css(css);
       contentEl.all('.album-thumb').css(preview);

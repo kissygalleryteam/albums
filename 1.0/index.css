@@ -28,6 +28,25 @@
 .albums-dialog .ks-contentbox {
   padding: 30px;
 }
+.albums-dialog .fullscreen {
+  padding: 0;
+}
+.albums-dialog .fullscreen .box {
+  /*border: none;*/
+
+}
+.albums-dialog .fullscreen .box-aside {
+  display: none;
+}
+.albums-dialog .fullscreen .box-main {
+  margin-right: 0;
+}
+.albums-dialog .fullscreen .handers .next {
+  right: 10px;
+}
+.albums-dialog .fullscreen .handers .prev {
+  left: 10px;
+}
 .albums-dialog .album-loading {
   background: url(http://img03.taobaocdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat center center #ffffff;
 }

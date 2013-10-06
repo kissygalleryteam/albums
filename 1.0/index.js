@@ -108,7 +108,16 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
         this._rotation(90);
       } else if (action == 'zoom') {
         this._zoom($(target));
+      } else if (action == 'fullscreen') {
+        this._fullscreen();
       }
+    },
+
+    // 全屏查看
+    _fullscreen: function(){
+      dialog.get('contentEl').addClass('fullscreen');
+      this.set('padding', [10, 10, 10, 10]);
+      this.go(0);
     },
 
     //旋转图片
@@ -301,13 +310,14 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
       var viewH = dialog.getWinHeight();
       var viewW = dialog.getWinWidth();
+      var padding = this.get('padding');
 
       var obj = {
         src: url,
         imgCls: 'J_img',
         index: +index,
         len: len,
-        h: viewH - 74,
+        h: viewH - padding[0] - padding[2],
         desc: $(target).attr('data-desc') || '',
         download: download,
         title: this.get('title')

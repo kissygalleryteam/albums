@@ -13,7 +13,7 @@ KISSY.add(function(S, Overlay, DD){
 
     S.Event.on(window, 'mousewheel', function(e){
       var id = dialog.get('album-id');
-      dialog.fire('wheel:' + id, { wheel: [e.deltaX, e.deltaY] });
+      dialog.fire('wheel:' + id, { wheel: [e.deltaX || 0, e.deltaY || 0] });
       e.halt();
     });
     S.all('html').css('overflow-y', 'hidden')
@@ -41,8 +41,6 @@ KISSY.add(function(S, Overlay, DD){
 
   });
 
-  dialog.on('change:step', dialog.stopDD);
-
   function distribution(name){
     return function(e){
       var id = dialog.get('album-id');
@@ -69,12 +67,16 @@ KISSY.add(function(S, Overlay, DD){
   dialog.startDD = function(){ delegate.set('move', true);  return delegate; };
   dialog.stopDD = function(){ delegate.set('move', false); };
 
+  dialog.on('change:step', dialog.stopDD);
+
   //dom渲染完成后
   dialog.on('afterRenderUI', function(){
 
     contentEl = dialog.get('contentEl');
 
     contentEl.delegate('click', '.hander', distribution('hander'));
+
+    contentEl.delegate('click', '.J_img', distribution('turn'));
 
     contentEl.delegate('click', '.action', distribution('action'));
 

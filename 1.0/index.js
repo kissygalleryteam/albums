@@ -83,6 +83,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       dialog.on('hander:' + id, this._go, this);
       dialog.on('action:' + id, this._action, this);
       dialog.on('resize:' + id, this._resize, this);
+      dialog.on('turn:' + id, this._turn, this);
 
       var self = this;
       //键盘事件前进后退
@@ -367,6 +368,12 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       var step = target.hasClass('prev') ? -1 : 1;
       this.go(step);
 
+    },
+
+    _turn: function(){
+      if (this.get('scale') === this.get('zoom')) {
+        this.go(1);
+      }
     }
 
   }, {ATTRS : /** @lends Albums*/{

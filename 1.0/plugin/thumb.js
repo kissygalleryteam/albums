@@ -11,6 +11,7 @@ KISSY.add(function(){
       this.dialog = host.dialog;
       this.contentEl = host.dialog.get('contentEl');
 
+      this._boundary = [null, null];
       this._bind();
     },
 
@@ -23,6 +24,7 @@ KISSY.add(function(){
           this._position();
           var dd = this.dialog.startDD();
           dd.on('dragalign', this._proxy, this);
+          this.drag = dd;
 
         } else {
           this._hide();
@@ -39,16 +41,46 @@ KISSY.add(function(){
 
     // 滚动控制图片位移
     _wheel: function(wheel){
-      console.log(wheel);
-      //console.log(this.position);
-      this._getPosition();
+
+      if (this.host.get('scale') < 1) return;
+
+      var offset = { left: 0, top: 0 };
+      var _boundary = this._boundary;
+
+      if (_boundary[1] == 'top' || _boundary[1] == 'bottom') {
+        offset.left = wheel[1] * - 10;
+      } else {
+        offset.top = wheel[1] * - 10;
+      }
+
+      var pos = this._getPosition();
+
+      offset = { 
+        left: pos.left + offset.left, 
+        top: pos.top + offset.top
+      };
+
+      this._proxy(offset);
+
+      this.contentEl.all('.J_img').offset(this.position);
+
     },
 
     _getPosition: function(){
+
+      if (this.position) {
+        return this.position;
+      }
+
       var host = this.host;
       var box = host.get('box');
       var padding = host.get('padding');
-      console.log(box);
+      var scale = host.get('scale');
+
+      var left = padding[3] + (box.view[0] - box.img[0] * scale) / 2;
+      var top = padding[0] + (box.view[1] - box.img[1] * scale) / 2;
+
+      return { left: left, top: top };
     },
 
     // 拖拽代理手动实现
@@ -68,28 +100,43 @@ KISSY.add(function(){
       if (pos.left < boundary.viewRight){
         pos.left = boundary.viewRight;
         outBoundary = true;
+        this._boundaryStack('right');
       } else if (pos.left >= boundary.viewLeft) {
         pos.left = boundary.viewLeft;
         outBoundary = true;
+        this._boundaryStack('left');
       } 
 
       if (pos.top < boundary.viewBottom) {
         pos.top = boundary.viewBottom;
         outBoundary = true;
+        this._boundaryStack('bottom');
       } else if (pos.top > boundary.viewTop) {
         pos.top = boundary.viewTop;
         outBoundary = true;
+        this._boundaryStack('top');
       }
 
       preview.top = - THUMB_HEIGHT + (padding[0] - pos.top) * zoom + boundary.distance[1];
       preview.left = - THUMB_WIDTH + (padding[3] - pos.left) * zoom + boundary.distance[0];
 
       if ( outBoundary ) {
-        e.drag.setInternal('actualPos', pos);
+        var drag = e.drag || this.drag;
+        drag.setInternal('actualPos', pos);
+      } else {
+        this._boundaryStack('center');
       }
 
       this.position = pos;
       this.contentEl.all('.album-thumb').css(preview);
+    },
+
+    _boundaryStack: function(name){
+
+      if (name == this._boundary[1]) return;
+
+      this._boundary.shift();
+      this._boundary.push(name);
     },
 
     _hide: function(){

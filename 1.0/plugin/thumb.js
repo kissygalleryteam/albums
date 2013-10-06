@@ -20,14 +20,20 @@ KISSY.add(function(){
       var host = this.host;
 
       host.on('afterScaleChange', function(e){
+
         if(host.get('zoom') < e.newVal) {
+
           this._position();
           var dd = this.dialog.startDD();
           dd.on('dragalign', this._proxy, this);
           this.drag = dd;
 
-        } else {
           this._hide();
+
+        } else {
+
+          this._hide(true);
+
         }
       }, this);
       
@@ -129,6 +135,9 @@ KISSY.add(function(){
 
       this.position = pos;
       this.contentEl.all('.album-thumb').css(preview);
+
+      this._hide();
+
     },
 
     _boundaryStack: function(name){
@@ -139,9 +148,26 @@ KISSY.add(function(){
       this._boundary.push(name);
     },
 
-    _hide: function(){
-      var contentEl = this.dialog.get('contentEl');
-      contentEl.all('.album-preview-box').css('visibility', 'hidden');
+    _hide: function(isSync){
+
+      var contentEl = this.contentEl;
+      var handle = this.handle;
+
+      if (isSync) {
+
+        contentEl.all('.album-preview-box').css('visibility', 'hidden');
+
+      } else {
+
+        contentEl.all('.album-preview-box').css('visibility', 'visible');
+        handle && handle.cancel();
+        handle = S.later(function(){
+          contentEl.all('.album-preview-box').css('visibility', 'hidden');
+        }, 2000);
+
+        this.handle = handle;
+
+      }
     },
 
     _position: function(box){
@@ -230,9 +256,9 @@ KISSY.add(function(){
 
       contentEl.all('.J_preivew_img').css(css);
       contentEl.all('.album-thumb').css(preview);
-      contentEl.all('.album-preview-box').css('visibility', 'visible');
       this.preview = preview;
       this.zoom = zoom;
+      this.position = null;
 
     },
 

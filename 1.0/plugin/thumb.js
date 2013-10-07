@@ -1,8 +1,13 @@
-KISSY.add(function(){
+KISSY.add(function(S, $, Base){
 
   var THUMB_WIDTH = 150;
   var THUMB_HEIGHT = 150;
-  var Thumb = {
+
+  function Thumb(cfg){
+    Thumb.superclass.constructor.call(this, cfg);
+  }
+
+  S.extend(Thumb, Base, {
 
     pluginId: 'thumb',
 
@@ -99,7 +104,7 @@ KISSY.add(function(){
 
       if (!this._shouldShowView()) return;
 
-      var zoom = this.zoom;
+      var zoom = this.get('zoom');
       //目标地址
       var pos = { left: e.left, top: e.top };
 
@@ -263,8 +268,8 @@ KISSY.add(function(){
 
       contentEl.all('.J_preivew_img').css(css);
       contentEl.all('.album-thumb').css(preview);
-      this.preview = preview;
-      this.zoom = zoom;
+      //this.preview = preview;
+      this.set('zoom', zoom);
       this.position = null;
 
     },
@@ -282,7 +287,18 @@ KISSY.add(function(){
     pluginDestructor: function(){
 
     }
-  };
+  }, {
+    // 缩放比例，缩略图和图片实际显示比例
+    zoom: { value: null },
+
+    preview: { },
+
+    position: {}
+
+  });
 
   return Thumb;
+
+}, {
+  requires: ['node', 'base']
 });

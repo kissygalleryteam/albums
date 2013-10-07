@@ -75,7 +75,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       this._bindEvent();
       this.dialog = dialog;
 
-      this.plug(Thumb);
+      this.plug(new Thumb);
 
     },
 
@@ -466,7 +466,9 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
     //旋转角度
     rotation: { value: 0 },
 
-    scale: { value: 1 }
+    scale: { value: 1 },
+
+    theme: { value: 'gallery/albums/theme' }
 
   }});
 

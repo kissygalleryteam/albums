@@ -38,6 +38,8 @@ KISSY.add(function(S, Overlay, DD){
 
     S.Event.detach(window, 'mousewheel');
     S.all('html').css('overflow-y', 'auto')
+    //发布关闭事件
+    distribution('close')({});
 
   });
 
@@ -64,7 +66,11 @@ KISSY.add(function(S, Overlay, DD){
     return winBox.width;
   };
 
-  dialog.startDD = function(){ delegate.set('move', true);  return delegate; };
+  dialog.startDD = function(){ 
+    delegate.set('move', true);  
+    return delegate; 
+  };
+
   dialog.stopDD = function(){ delegate.set('move', false); };
 
   dialog.on('change:step', dialog.stopDD);

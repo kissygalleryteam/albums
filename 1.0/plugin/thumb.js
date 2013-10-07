@@ -21,7 +21,7 @@ KISSY.add(function(){
 
       host.on('afterScaleChange', function(e){
 
-        if(host.get('zoom') < e.newVal) {
+        if(this._shouldShowView()) {
 
           this._position();
           var dd = this.dialog.startDD();
@@ -32,6 +32,7 @@ KISSY.add(function(){
 
         } else {
 
+          this.dialog.stopDD();
           this._hide(true);
 
         }
@@ -45,10 +46,14 @@ KISSY.add(function(){
 
     },
 
+    _shouldShowView: function(){
+      return this.host.isOutBoundary();
+    },
+
     // 滚动控制图片位移
     _wheel: function(wheel){
 
-      if (this.host.get('scale') < 1) return;
+      if (!this._shouldShowView()) return;
 
       var offset = { left: 0, top: 0 };
       var _boundary = this._boundary;
@@ -91,6 +96,8 @@ KISSY.add(function(){
 
     // 拖拽代理手动实现
     _proxy: function(e){
+
+      if (!this._shouldShowView()) return;
 
       var zoom = this.zoom;
       //目标地址
@@ -163,7 +170,7 @@ KISSY.add(function(){
         handle && handle.cancel();
         handle = S.later(function(){
           contentEl.all('.album-preview-box').css('visibility', 'hidden');
-        }, 2000);
+        }, 1500);
 
         this.handle = handle;
 

@@ -28,25 +28,6 @@
 .albums-dialog .ks-contentbox {
   padding: 30px;
 }
-.albums-dialog .fullscreen {
-  padding: 0;
-}
-.albums-dialog .fullscreen .box {
-  /*border: none;*/
-
-}
-.albums-dialog .fullscreen .box-aside {
-  display: none;
-}
-.albums-dialog .fullscreen .box-main {
-  margin-right: 0;
-}
-.albums-dialog .fullscreen .handers .next {
-  right: 10px;
-}
-.albums-dialog .fullscreen .handers .prev {
-  left: 10px;
-}
 .albums-dialog .album-loading {
   background: url(http://img03.taobaocdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat center center #ffffff;
 }
@@ -157,4 +138,33 @@
   bottom: 5px;
   left: 5px;
   z-index: 11;
+}
+.fullscreen {
+  background-color: #000;
+}
+.fullscreen .ks-ext-close {
+  top: 0px;
+  right: 0px;
+}
+.fullscreen .ks-contentbox {
+  padding: 0;
+}
+.fullscreen .box {
+  border: none;
+}
+.fullscreen .box-aside {
+  display: none;
+}
+.fullscreen .box-main {
+  margin-right: 0;
+}
+.fullscreen .handers .next {
+  right: 10px;
+}
+.fullscreen .handers .prev {
+  left: 10px;
+}
+.fullscreen .box-main {
+  background-color: #000;
+  border-color: #000;
 }

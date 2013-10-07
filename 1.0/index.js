@@ -10,6 +10,27 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
   var HTML_BODY = new XTemplate(TPL.html);
 
+  function fullScreen(close) {
+    if (!close && !document.fullscreenElement &&    // alternative standard method
+        !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else if (document.documentElement.mozRequestFullScreen) {
+        document.documentElement.mozRequestFullScreen();
+      } else if (document.documentElement.webkitRequestFullscreen) {
+        document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      }
+    } else {
+      if (document.cancelFullScreen) {
+        document.cancelFullScreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitCancelFullScreen) {
+        document.webkitCancelFullScreen();
+      }
+    }
+  }
+  
   /**
    * 请修改组件描述
    * @class Albums
@@ -85,6 +106,8 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       dialog.on('resize:' + id, this._resize, this);
       dialog.on('turn:' + id, this._turn, this);
 
+      dialog.on('close:' + id, this._close, this);
+
       var self = this;
       //键盘事件前进后退
       dialog.on('prev:' + id, function(){ self.go(-1); });
@@ -115,9 +138,22 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
     // 全屏查看
     _fullscreen: function(){
-      dialog.get('contentEl').addClass('fullscreen');
+      //console.log(dialog);
+      dialog.get('el').addClass('fullscreen');
+      var padding = this.get('padding');
+      this._paddingBackup = padding;
       this.set('padding', [10, 10, 10, 10]);
+      fullScreen();
       this.go(0);
+    },
+
+    _close: function(){
+      if (this._paddingBackup) {
+        this.set('padding', this._paddingBackup);
+        delete this._paddingBackup;
+        dialog.get('el').removeClass('fullscreen');
+        fullScreen(true);
+      }
     },
 
     //旋转图片
@@ -308,7 +344,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       var len = this.get('len');
       var pos = + index + 1;
 
-      var viewH = dialog.getWinHeight();
+      var viewH = dialog.getWinHeight() + 20;
       var viewW = dialog.getWinWidth();
       var padding = this.get('padding');
 
@@ -380,8 +416,15 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
     },
 
+    // 判断图片是否超出了视窗
+    isOutBoundary: function(){
+      var box = this.get('box');
+      var scale = this.get('scale');
+      return box.img[0] * scale > box.view[0] || box.img[1] * scale > box.view[1];
+    },
+
     _turn: function(){
-      if (this.get('scale') === this.get('zoom')) {
+      if (!this.isOutBoundary()) {
         this.go(1);
       }
     }

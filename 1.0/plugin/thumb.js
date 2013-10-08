@@ -64,9 +64,9 @@ KISSY.add(function(S, $, Base){
       var _boundary = this._boundary;
 
       if (_boundary[1] == 'top' || _boundary[1] == 'bottom') {
-        offset.left = wheel[1] * - 10;
+        offset.left = wheel[1] * - 15;
       } else {
-        offset.top = wheel[1] * - 10;
+        offset.top = wheel[1] * - 15;
       }
 
       var pos = this._getPosition();
@@ -211,6 +211,7 @@ KISSY.add(function(S, $, Base){
 
         boundary.distance[0] = (THUMB_WIDTH - thumbW) / 2;
         css.left = (viewW - thumbW) / 2;
+        css.height = viewH;
 
       } else {
 
@@ -220,6 +221,7 @@ KISSY.add(function(S, $, Base){
 
         boundary.distance[1] = (THUMB_HEIGHT - thumbH) / 2;
         css.top = (viewH - thumbH) / 2;
+        css.width = viewW;
 
       }
 

@@ -5,7 +5,7 @@ combined files :
 */
 
 
-/** generate by joycss v0.5.3, on time: 2013-09-22 16:07:31 */
+/** generate by joycss v0.5.3, on time: 2013-10-08 10:08:28 */
 .album-big:hover,
 .icons:hover .album-big,
 .album-big,
@@ -25,7 +25,7 @@ combined files :
 .rotation-pro:hover,
 .icons:hover .rotation-pro,
 .rotation-pro {
-  background-image: url(http://gtms01.alicdn.com/tps/i1/T1c3C3FfBcXXXRy1nV-268-186.png);
+  background-image: url(http://gtms03.alicdn.com/tps/i3/T1FVftFdBbXXXRy1nV-268-186.png);
   background-repeat: no-repeat;
 }
 .album-big:hover,
@@ -63,8 +63,8 @@ combined files :
   background-position: -62px -62px;
 }
 .ks-ext-close {
-  width: 30px;
-  height: 25px;
+  width: 21px;
+  height: 21px;
   display: inline-block;
   *zoom: 1;
   *display: inline;
@@ -172,6 +172,37 @@ combined files :
 .albums-dialog .album-loading {
   background: url(http://img03.taobaocdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat center center #ffffff;
 }
+.albums-dialog .album-preview-box {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  border: 1px solid #808080;
+  left: 10px;
+  top: 10px;
+  z-index: 2;
+  overflow: hidden;
+  visibility: hidden;
+  /*background-color: #000;*/
+
+}
+.albums-dialog .album-preview-box img {
+  position: absolute;
+  max-width: 150px;
+  max-height: 150px;
+  border-bottom: 1px solid #666;
+  border-top: 1px solid #666;
+}
+.albums-dialog .album-thumb {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  top: -150px;
+  left: -140px;
+  border: 150px solid rgba(0, 0, 0, 0.4);
+  margin: 149px\9;
+  border: 1px solid #000\9;
+}
 .albums-dialog .box-main {
   position: relative;
   overflow: hidden;
@@ -191,6 +222,8 @@ combined files :
   position: absolute;
   top: 0;
   right: 0;
+  _top: 7px;
+  _right: 37px;
   background-color: #F5F5F5;
 }
 .albums-dialog .box-aside .aside-wrap {
@@ -249,5 +282,35 @@ combined files :
   position: absolute;
   bottom: 5px;
   left: 5px;
+  _bottom: 67px;
   z-index: 11;
+}
+.fullscreen {
+  background-color: #000;
+}
+.fullscreen .ks-ext-close {
+  top: 20px;
+  right: 20px;
+}
+.fullscreen .ks-contentbox {
+  padding: 0;
+}
+.fullscreen .box {
+  border: none;
+}
+.fullscreen .box-aside {
+  display: none;
+}
+.fullscreen .box-main {
+  margin-right: 0;
+}
+.fullscreen .handers .next {
+  right: 10px;
+}
+.fullscreen .handers .prev {
+  left: 10px;
+}
+.fullscreen .box-main {
+  background-color: #000;
+  border-color: #000;
 }

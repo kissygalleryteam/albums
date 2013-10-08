@@ -11,7 +11,7 @@ KISSY.add(function(S, Overlay, DD){
   //禁止滚动事件和隐藏滚轮
   dialog.on('show', function(){
 
-    S.Event.on(window, 'mousewheel', function(e){
+    S.Event.on(document, 'mousewheel', function(e){
       var id = dialog.get('album-id');
       dialog.fire('wheel:' + id, { wheel: [e.deltaX || 0, e.deltaY || 0] });
       e.halt();
@@ -36,7 +36,7 @@ KISSY.add(function(S, Overlay, DD){
   //恢复滚动和滚轮
   dialog.on('hide', function(){
 
-    S.Event.detach(window, 'mousewheel');
+    S.Event.detach(document, 'mousewheel');
     S.all('html').css('overflow-y', 'auto')
     //发布关闭事件
     distribution('close')({});

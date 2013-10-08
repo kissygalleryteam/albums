@@ -178,7 +178,14 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       var el = dialog.get('contentEl').all('.J_img');
       var padding = this.get('padding');
       var viewH = dialog.getWinHeight() - padding[0] - padding[2];
-      dialog.get('contentEl').all('.box-main').height(viewH - 20);
+
+      if (S.UA.ie === 6) {
+        var viewW = dialog.getWinWidth() - padding[1] - padding[3];
+        dialog.get('contentEl').all('.box-main').css({ width: viewW, height: viewH - 20 });
+      } else {
+        dialog.get('contentEl').all('.box-main').height(viewH - 20);
+      }
+
       dialog.get('contentEl').all('.box-aside').height(viewH);
       this._position(el, 1);
     },
@@ -215,30 +222,53 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
       if (isBig) {
 
-        this._zoomOut(el);
+        this._zoomOut(el, 0.2);
 
       } else {
 
-        var rotation = this.get('rotation');
-        var zoom = this.get('zoom');
-        var css = rotate(rotation, zoom);
-        el.css(css);
+        this._zoomOut(el, -0.2);
+        //var rotation = this.get('rotation');
+        //var zoom = this.get('zoom');
+        //var css = rotate(rotation, zoom);
+        //el.css(css);
 
-        this.set('scale', zoom);
-        this._position(el, true);
+        //this.set('scale', zoom);
+        //this._position(el, true);
 
       }
 
     },
 
-    _zoomOut: function(el){
+    // times 缩放倍数
+    _zoomOut: function(el, times){
+
       var rotation = this.get('rotation');
       var scale = this.get('scale');
-      scale += 0.2;
-      if (scale < 1) scale = 1;
+
+      // 获取图片尺寸
+      var img = this.get('box').img;
+      // 贮存老的缩放比例
+      var scaleDiff = this.get('zoom');
+
+      scale += times;
+
+      if (scale < 1 && times > 0) scale = 1;
+      if (scale < 1 && times < 0) scale = this.get('zoom');
+
+      scaleDiff = (scale - scaleDiff) / 2;
       var css = rotate(rotation, scale);
+
+      if (S.UA.ie < 9) {
+        var position = this.get('position');
+        css.left = position[0] - img[0] * scaleDiff;
+        css.top = position[1] - img[1] * scaleDiff;
+      }
+
       el.css(css);
       this.set('scale', scale);
+
+      if (scale === this.get('zoom')) this._position(el, true);
+
     },
 
     //设置合适屏幕的位置
@@ -354,6 +384,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
         index: +index,
         len: len,
         h: viewH - padding[0] - padding[2],
+        w: S.UA.ie === 6 ? viewW - padding[1] - padding[3] : null,
         desc: $(target).attr('data-desc') || '',
         download: download,
         title: this.get('title')

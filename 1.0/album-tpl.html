@@ -18,7 +18,7 @@
     <div class="album-thumb"></div>
   </div>
 
-  <div class="box-main album-loading" style="height: {{h - 20}}px">  
+  <div class="box-main album-loading" style="height: {{h - 20}}px; {{#if w}}width: {{w}}px; {{/if}}">  
     {{#if download}}
       <a href="{{download}}"><img class="{{imgCls}}" src="{{src}}" alt="" /></a>
     {{else}}

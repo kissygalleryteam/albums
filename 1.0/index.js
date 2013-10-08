@@ -3,34 +3,11 @@
  * @author hanwen.sah<hanwen.sah@taobao.com>
  * @module albums
  **/
-KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate, Thumb) {
+KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
 
   var EMPTY = '';
   var $ = Node.all;
 
-  var HTML_BODY = new XTemplate(TPL.html);
-
-  function fullScreen(close) {
-    if (!close && !document.fullscreenElement &&    // alternative standard method
-        !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullscreen) {
-        document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-      }
-    } else {
-      if (document.cancelFullScreen) {
-        document.cancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      }
-    }
-  }
-  
   /**
    * 请修改组件描述
    * @class Albums
@@ -65,6 +42,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
     init: function(){
 
       var baseEl = this.get('baseEl');
+      var theme = this.get('theme');
 
       if (!baseEl.length) return;
       //调用setter，传递一个参数1，本身没有意义，最终id会是通过guid生成的
@@ -76,6 +54,13 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       this.dialog = dialog;
 
       this.plug(new Thumb);
+
+      // 初始化主题
+      if (S.isString(theme)) {
+        theme = S.require(theme);
+        if (!theme) throw( new Error('Theme 没有定义'));
+        this.set('theme', new theme(this));
+      }
 
     },
 
@@ -106,8 +91,6 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       dialog.on('resize:' + id, this._resize, this);
       dialog.on('turn:' + id, this._turn, this);
 
-      dialog.on('close:' + id, this._close, this);
-
       var self = this;
       //键盘事件前进后退
       dialog.on('prev:' + id, function(){ self.go(-1); });
@@ -131,29 +114,8 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
         this._rotation(90);
       } else if (action == 'zoom') {
         this._zoom($(target));
-      } else if (action == 'fullscreen') {
-        this._fullscreen();
       }
-    },
 
-    // 全屏查看
-    _fullscreen: function(){
-      //console.log(dialog);
-      dialog.get('el').addClass('fullscreen');
-      var padding = this.get('padding');
-      this._paddingBackup = padding;
-      this.set('padding', [10, 10, 10, 10]);
-      fullScreen();
-      this.go(0);
-    },
-
-    _close: function(){
-      if (this._paddingBackup) {
-        this.set('padding', this._paddingBackup);
-        delete this._paddingBackup;
-        dialog.get('el').removeClass('fullscreen');
-        fullScreen(true);
-      }
     },
 
     //旋转图片
@@ -164,7 +126,6 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       var scale = this.get('scale');
 
       rotation += parseInt(degree, 10);
-      //rotation = rotation % 360;
 
       this.set('rotation', rotation);
 
@@ -176,17 +137,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
     _resize: function(){
       var el = dialog.get('contentEl').all('.J_img');
-      var padding = this.get('padding');
-      var viewH = dialog.getWinHeight() - padding[0] - padding[2];
-
-      if (S.UA.ie === 6) {
-        var viewW = dialog.getWinWidth() - padding[1] - padding[3];
-        dialog.get('contentEl').all('.box-main').css({ width: viewW, height: viewH - 20 });
-      } else {
-        dialog.get('contentEl').all('.box-main').height(viewH - 20);
-      }
-
-      dialog.get('contentEl').all('.box-aside').height(viewH);
+      this.fire('resize');
       this._position(el, 1);
     },
 
@@ -217,25 +168,8 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
     _zoom: function(target){
 
       var el = dialog.get('contentEl').all('.J_img');
-
       var isBig = target.hasClass('album-big');
-
-      if (isBig) {
-
-        this._zoomOut(el, 0.2);
-
-      } else {
-
-        this._zoomOut(el, -0.2);
-        //var rotation = this.get('rotation');
-        //var zoom = this.get('zoom');
-        //var css = rotate(rotation, zoom);
-        //el.css(css);
-
-        //this.set('scale', zoom);
-        //this._position(el, true);
-
-      }
+      this._zoomOut(el, isBig ? 0.2: -0.2);
 
     },
 
@@ -277,10 +211,9 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       if (!el.data('loaded')) return;
 
       var box = getNaturlWidth(el);
-      var padding = this.get('padding');
+      var padding = this.get('theme').get('padding');
 
       var viewH = dialog.getWinHeight() - padding[0] - padding[2];
-      // 14px边距，60px外边距，20px内边距，230px
       var viewW = dialog.getWinWidth() - padding[1] - padding[3];
       var h = box.height;
       var w = box.width;
@@ -360,39 +293,13 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
       this.set('rotation', 0);
       var target = evt.target;
-      var url = $(target).attr('data-original-url');
-
-      var download = $(target).attr('data-download');
-
-      if (!url) url = target.src;
-
       this._setEls();
 
       var index = $(target).attr('data-index');
-      this.set('index', parseInt(index, 10));
+      index = parseInt(index, 10);
+      this.set('index', index);
 
-      var len = this.get('len');
-      var pos = + index + 1;
-
-      var viewH = dialog.getWinHeight() + 20;
-      var viewW = dialog.getWinWidth();
-      var padding = this.get('padding');
-
-      var obj = {
-        src: url,
-        imgCls: 'J_img',
-        index: +index,
-        len: len,
-        h: viewH - padding[0] - padding[2],
-        w: S.UA.ie === 6 ? viewW - padding[1] - padding[3] : null,
-        desc: $(target).attr('data-desc') || '',
-        download: download,
-        title: this.get('title')
-      };
-
-      var html = this.get('template').render(S.mix(obj, this.get('datas')));
-
-      dialog.set('bodyContent', html);
+      dialog.set('bodyContent', this.get('theme').html(target, index));
       dialog.show();
 
       dialog.set('album-id', this.get('id'));
@@ -404,13 +311,9 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
       el.on('load', function(){
         el.data('loaded', true);
         self._position(el);
-        //self.fire('img:load', getNaturlWidth(el));
         callback && callback();
       });
 
-    },
-
-    next: function(){
     },
 
     /**
@@ -477,20 +380,9 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
     // trigger event of open imgView
     trigger: { value: 'click' },
 
-    title: { value: '查看图片' },
-
     index: { value: 0 },
 
     box: { value: {} },
-
-    datas: { 
-      value: { prefix: "图片说明" }
-    },
-
-    template: { value: HTML_BODY },
-
-    //边距，和css的padding顺序一致，上左下右
-    padding: { value: [ 47, 47 + 240, 47, 47] },
 
     id: { setter: function(){ return S.guid(); }},
 
@@ -499,7 +391,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
 
     scale: { value: 1 },
 
-    theme: { value: 'gallery/albums/theme' }
+    theme: { value: 'gallery/albums/1.0/plugin/theme' }
 
   }});
 
@@ -510,10 +402,8 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, TPL, XTemplate, dialog, rotate
   'rich-base', 
   'overlay',
   'anim',
-  './album-tpl',
-  'xtemplate',
   './dialog',
   './rotate',
   './plugin/thumb',
-  './index.css'
+  './plugin/theme'
 ]});

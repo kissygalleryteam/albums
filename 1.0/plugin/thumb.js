@@ -90,7 +90,7 @@ KISSY.add(function(S, $, Base){
 
       var host = this.host;
       var box = host.get('box');
-      var padding = host.get('padding');
+      var padding = host.get('theme').get('padding');
       var scale = host.get('scale');
 
       var left = padding[3] + (box.view[0] - box.img[0] * scale) / 2;
@@ -111,7 +111,7 @@ KISSY.add(function(S, $, Base){
       var boundary = this.boundary;
 
       var preview = {};
-      var padding = this.host.get('padding');
+      var padding = this.host.get('theme').get('padding');
 
       var outBoundary = false;
 
@@ -189,7 +189,7 @@ KISSY.add(function(S, $, Base){
       var box = host.get('box');
       var contentEl = this.dialog.get('contentEl');
       var scale = host.get('scale');
-      var padding = host.get('padding');
+      var padding = host.get('theme').get('padding');
 
       //图片实际大小
       var imgW = box.img[0] * scale, imgH = box.img[1] * scale;

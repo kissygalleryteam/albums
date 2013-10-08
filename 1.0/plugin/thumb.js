@@ -28,7 +28,7 @@ KISSY.add(function(S, $, Base){
 
         if(this._shouldShowView()) {
 
-          this._position();
+          this._position(e.newVal - e.prevVal);
           var dd = this.dialog.startDD();
           dd.on('dragalign', this._proxy, this);
           this.drag = dd;
@@ -37,6 +37,7 @@ KISSY.add(function(S, $, Base){
 
         } else {
 
+          this.set('centerOffset', null);
           this.dialog.stopDD();
           this._hide(true);
 
@@ -108,11 +109,33 @@ KISSY.add(function(S, $, Base){
       //目标地址
       var pos = { left: e.left, top: e.top };
 
+      var outBoundary = this._isOutBoundary(pos);
+      var preview = this._posToPreview(pos);
+
+      var centerPos = this.get('centerPosition');
+      // 中心偏移量
+      this.set('centerOffset', { 
+        left: centerPos.left - preview.left,
+        top: centerPos.top - preview.top 
+      });
+
+      if ( outBoundary ) {
+        var drag = e.drag || this.drag;
+        drag && drag.setInternal('actualPos', pos);
+      } else {
+        this._boundaryStack('center');
+      }
+
+      this.position = pos;
+      this.contentEl.all('.album-thumb').css(preview);
+
+      this._hide();
+
+    },
+
+    _isOutBoundary: function(pos){
+
       var boundary = this.boundary;
-
-      var preview = {};
-      var padding = this.host.get('theme').get('padding');
-
       var outBoundary = false;
 
       if (pos.left < boundary.viewRight){
@@ -135,20 +158,41 @@ KISSY.add(function(S, $, Base){
         this._boundaryStack('top');
       }
 
+      return outBoundary;
+
+    },
+
+    // 通过预览框位置计算图片offset
+    _previewToPos: function(preview) {
+
+      var pos = {};
+
+      var host = this.host;
+      var padding = host.get('theme').get('padding');
+      var boundary = this.boundary;
+      var zoom = this.get('zoom');
+
+      pos.top = - (preview.top + THUMB_HEIGHT - boundary.distance[1]) / zoom  + padding[0] ;
+      pos.left = - (preview.left + THUMB_WIDTH - boundary.distance[0]) / zoom  + padding[3] ;
+
+      return pos;
+
+    },
+
+    // 通过图片的offset计算预览框位置
+    _posToPreview: function(pos){
+
+      var preview = {};
+
+      var host = this.host;
+      var padding = host.get('theme').get('padding');
+      var boundary = this.boundary;
+      var zoom = this.get('zoom');
+
       preview.top = - THUMB_HEIGHT + (padding[0] - pos.top) * zoom + boundary.distance[1];
       preview.left = - THUMB_WIDTH + (padding[3] - pos.left) * zoom + boundary.distance[0];
 
-      if ( outBoundary ) {
-        var drag = e.drag || this.drag;
-        drag.setInternal('actualPos', pos);
-      } else {
-        this._boundaryStack('center');
-      }
-
-      this.position = pos;
-      this.contentEl.all('.album-thumb').css(preview);
-
-      this._hide();
+      return preview;
 
     },
 
@@ -172,18 +216,19 @@ KISSY.add(function(S, $, Base){
       } else {
 
         contentEl.all('.album-preview-box').css('visibility', 'visible');
-        handle && handle.cancel();
-        handle = S.later(function(){
-          contentEl.all('.album-preview-box').css('visibility', 'hidden');
-        }, 1500);
+        //handle && handle.cancel();
+        //handle = S.later(function(){
+          //contentEl.all('.album-preview-box').css('visibility', 'hidden');
+        //}, 1500);
 
-        this.handle = handle;
+        //this.handle = handle;
 
       }
     },
 
-    _position: function(box){
+    _position: function(scaleDiff){
 
+      scaleDiff = scaleDiff || 0;
       var viewH = THUMB_HEIGHT, viewW = THUMB_WIDTH;
       var host = this.host;
       var box = host.get('box');
@@ -225,7 +270,6 @@ KISSY.add(function(S, $, Base){
 
       }
 
-
       preview = {
         width: zoom * box.view[0],
         height: zoom * box.view[1]
@@ -264,15 +308,43 @@ KISSY.add(function(S, $, Base){
       preview.left = - THUMB_WIDTH - (box.view[0] - imgW) / 2 * zoom + boundary.distance[0];
       preview.top = - THUMB_HEIGHT - (box.view[1] - imgH) / 2  * zoom + boundary.distance[1];
 
+      // 中心位置
+      this.set('centerPosition', {
+        left: preview.left,
+        top: preview.top
+      });
+
+      var centerOffset = this.get('centerOffset');
+
+      // 计算准确的位置偏移量
+      if (centerOffset) {
+        preview.left -= centerOffset.left ;
+        preview.top -= centerOffset.top ;
+      }
+
       this.boundary = boundary;
       //console.log(this.boundary);
       //console.log(preview);
 
       contentEl.all('.J_preivew_img').css(css);
       contentEl.all('.album-thumb').css(preview);
-      //this.preview = preview;
+
       this.set('zoom', zoom);
       this.position = null;
+
+      if (centerOffset) {
+
+        var pos = this._previewToPos(preview);
+        var isOutBoundary = this._isOutBoundary(pos);
+
+        if (isOutBoundary) {
+          contentEl.all('.album-thumb').css(this._posToPreview(pos));
+          S.later(function(){
+            contentEl.all('.J_img').offset(pos);
+          }, 230);
+        }
+
+      }
 
     },
 

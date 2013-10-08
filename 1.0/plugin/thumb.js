@@ -216,12 +216,12 @@ KISSY.add(function(S, $, Base){
       } else {
 
         contentEl.all('.album-preview-box').css('visibility', 'visible');
-        //handle && handle.cancel();
-        //handle = S.later(function(){
-          //contentEl.all('.album-preview-box').css('visibility', 'hidden');
-        //}, 1500);
+        handle && handle.cancel();
+        handle = S.later(function(){
+          contentEl.all('.album-preview-box').css('visibility', 'hidden');
+        }, 1500);
 
-        //this.handle = handle;
+        this.handle = handle;
 
       }
     },

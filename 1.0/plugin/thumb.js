@@ -250,8 +250,7 @@ KISSY.add(function(S, $, Base){
       var scrollTop = S.all(document).scrollTop();
 
       var boundary = {
-        distance: [0, 0],
-        viewTop: scrollTop
+        distance: [0, 0]
       };
 
       this.scrollTop = scrollTop;
@@ -288,14 +287,14 @@ KISSY.add(function(S, $, Base){
       boundary.viewRight = boundary.viewLeft - (imgW - box.view[0]);
 
       // top offset
-      boundary.viewTop += padding[0];
+      boundary.viewTop = padding[0] + scrollTop;
       boundary.viewBottom = boundary.viewTop - (imgH - box.view[1]);
 
       //如果预览窗口高度大于缩略图高度
       if (preview.height > thumbH) {
 
         // top保持不变
-        boundary.viewTop += (box.view[1] - imgH) / 2 + padding[0];
+        boundary.viewTop = (box.view[1] - imgH) / 2 + padding[0] + scrollTop;
         boundary.viewBottom = boundary.viewTop;
 
         boundary.distance[1] += (preview.height - thumbH) / 2;

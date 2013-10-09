@@ -7,11 +7,64 @@
 </head>
 <body>
 <style type="text/css">
-.albums-content {
+body {
   width: 800px;
   margin: 0 auto;
 }
+#sun-box img {
+  padding-right: 4px;
+}
 </style>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <div class="albums-content">
   <h2>模式1</h2>
   <img class="J_ImgDD" data-desc="In this example lightboxes are automatically disabled on small screen size and default behavior of link is triggered" data-original-url="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_b.jpg" src="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_s.jpg" width="75" height="75">
@@ -75,7 +128,6 @@ KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
   }
 
   getPics(function(err, json){
-    console.log(err);
     if (err) return;
     console.log(json);
     var html = '';
@@ -88,9 +140,10 @@ KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
       photo.size = 'b';
       var original = S.substitute(tpl, photo);
 
-      html += S.substitute('<img src="{src}" data-original-url="{original}" />', {
+      html += S.substitute('<img src="{src}" data-original-url="{original}" data-desc="{title}"/>', {
         src: src,
-        original: original
+        original: original,
+        title: photo.title
       });
 
     });

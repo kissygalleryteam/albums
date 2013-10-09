@@ -15,56 +15,6 @@ body {
   padding-right: 4px;
 }
 </style>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <div class="albums-content">
   <h2>模式1</h2>
   <img class="J_ImgDD" data-desc="In this example lightboxes are automatically disabled on small screen size and default behavior of link is triggered" data-original-url="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_b.jpg" src="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_s.jpg" width="75" height="75">
@@ -99,7 +49,7 @@ S.use('gallery/albums/1.0/index', function (S, Albums) {
 })
 </script>
 
-<h2>flickr sun</h2>
+<h2>flickr Rain tag search</h2>
 <div id="sun-box"></div>
 
 <script>
@@ -128,7 +78,10 @@ KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
   }
 
   getPics(function(err, json){
-    if (err) return;
+    if (err) {
+      S.all('#sun-box').html('error happend, flickr get picture fail!');
+      return;
+    }
     console.log(json);
     var html = '';
     var tpl = 'http://farm{farm}.staticflickr.com/{server}/{id}_{secret}_{size}.jpg"';

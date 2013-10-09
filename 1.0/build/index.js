@@ -355,8 +355,9 @@ KISSY.add('gallery/albums/1.0/plugin/thumb',function(S, $, Base){
       var padding = host.get('theme').get('padding');
       var boundary = this.boundary;
       var zoom = this.get('zoom');
+      var scrollTop = this.scrollTop;
 
-      pos.top = - (preview.top + THUMB_HEIGHT - boundary.distance[1]) / zoom  + padding[0] ;
+      pos.top = - (preview.top + THUMB_HEIGHT - boundary.distance[1]) / zoom  + padding[0] + scrollTop;
       pos.left = - (preview.left + THUMB_WIDTH - boundary.distance[0]) / zoom  + padding[3] ;
 
       return pos;
@@ -373,7 +374,9 @@ KISSY.add('gallery/albums/1.0/plugin/thumb',function(S, $, Base){
       var boundary = this.boundary;
       var zoom = this.get('zoom');
 
-      preview.top = - THUMB_HEIGHT + (padding[0] - pos.top) * zoom + boundary.distance[1];
+      var scrollTop = this.scrollTop;
+
+      preview.top = - THUMB_HEIGHT + (padding[0] - pos.top + scrollTop) * zoom + boundary.distance[1];
       preview.left = - THUMB_WIDTH + (padding[3] - pos.left) * zoom + boundary.distance[0];
 
       return preview;
@@ -400,12 +403,12 @@ KISSY.add('gallery/albums/1.0/plugin/thumb',function(S, $, Base){
       } else {
 
         contentEl.all('.album-preview-box').css('visibility', 'visible');
-        //handle && handle.cancel();
-        //handle = S.later(function(){
-          //contentEl.all('.album-preview-box').css('visibility', 'hidden');
-        //}, 1500);
+        handle && handle.cancel();
+        handle = S.later(function(){
+          contentEl.all('.album-preview-box').css('visibility', 'hidden');
+        }, 1500);
 
-        //this.handle = handle;
+        this.handle = handle;
 
       }
     },
@@ -428,9 +431,14 @@ KISSY.add('gallery/albums/1.0/plugin/thumb',function(S, $, Base){
       var css = { top: 0, left: 0 };
       var zoom, preview;
 
+      var scrollTop = S.all(document).scrollTop();
+
       var boundary = {
-        distance: [0, 0]
+        distance: [0, 0],
+        viewTop: scrollTop
       };
+
+      this.scrollTop = scrollTop;
 
       if (imgH / viewH > imgW / viewW) {
 
@@ -464,14 +472,14 @@ KISSY.add('gallery/albums/1.0/plugin/thumb',function(S, $, Base){
       boundary.viewRight = boundary.viewLeft - (imgW - box.view[0]);
 
       // top offset
-      boundary.viewTop = padding[0];
+      boundary.viewTop += padding[0];
       boundary.viewBottom = boundary.viewTop - (imgH - box.view[1]);
 
       //如果预览窗口高度大于缩略图高度
       if (preview.height > thumbH) {
 
         // top保持不变
-        boundary.viewTop = (box.view[1] - imgH) / 2 + padding[0];
+        boundary.viewTop += (box.view[1] - imgH) / 2 + padding[0];
         boundary.viewBottom = boundary.viewTop;
 
         boundary.distance[1] += (preview.height - thumbH) / 2;

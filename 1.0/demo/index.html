@@ -12,9 +12,8 @@
   margin: 0 auto;
 }
 </style>
-
 <div class="albums-content">
-  <h2>点击图片吧</h2>
+  <h2>模式1</h2>
   <img class="J_ImgDD" data-desc="In this example lightboxes are automatically disabled on small screen size and default behavior of link is triggered" data-original-url="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_b.jpg" src="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_s.jpg" width="75" height="75">
   <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8382/8558295631_0f56c1284f_b.jpg" src="http://farm9.staticflickr.com/8382/8558295631_0f56c1284f_s.jpg" width="75" height="75">
   <img class="J_ImgDD" data-original-url="http://ww4.sinaimg.cn/bmiddle/9be419dbjw1e99i7mdfikj20c827p18i.jpg" src="http://ww4.sinaimg.cn/thumbnail/9be419dbjw1e99i7mdfikj20c827p18i.jpg">
@@ -22,7 +21,7 @@
   <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8383/8563475581_df05e9906d_b.jpg" src="http://farm9.staticflickr.com/8383/8563475581_df05e9906d_s.jpg" width="75" height="75">
   <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8235/8559402846_8b7f82e05d_b.jpg" src="http://farm9.staticflickr.com/8235/8559402846_8b7f82e05d_s.jpg" width="75" height="75">
   <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8235/8558295467_e89e95e05a_b.jpg" src="http://farm9.staticflickr.com/8235/8558295467_e89e95e05a_s.jpg" width="75" height="75">
-  <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8378/8559402848_9fcd90d20b_b.jpg" src="http://farm9.staticflickr.com/8378/8559402848_9fcd90d20b_s.jpg" width="75" height="75">
+  <img class="J_ImgDD" data-original-url="http://img01.taobaocdn.net/consult/i1/T2iGuzXblaXXXXXXXX_!!2066819382.jpg" src="http://img01.taobaocdn.net/consult/i1/T2iGuzXblaXXXXXXXX_!!2066819382.jpg_80x80.jpg" width="75" height="75">
   <img class="J_ImgDD" src="http://img02.taobaocdn.com/tps/i2/T1US_oXgpXXXcxA5cP-760-578.jpg_80x80.jpg" data-desc="亲，请提供卖家存在违规的阿里旺旺聊天记录。&lt;br&gt;（&lt;a href=&quot;http://service.taobao.com/support/knowledge-1116655.htm&quot; target=&quot;_blank&quot;&gt;聊天记录截图方法&lt;/a&gt;；&lt;nbsp;&gt;&lt;nbsp;&gt;&lt;a href=&quot;http://service.taobao.com/support/knowledge-1139893.htm&quot; target=&quot;_blank&quot;&gt;举证号提取方法&lt;/a&gt;）" data-original-url="http://img02.taobaocdn.com/tps/i2/T1US_oXgpXXXcxA5cP-760-578.jpg" alt="" data-index="0">
 </div>
 
@@ -46,5 +45,62 @@ S.use('gallery/albums/1.0/index', function (S, Albums) {
   var albums = new Albums({baseEl: '.albums-content'});
 })
 </script>
+
+<h2>flickr sun</h2>
+<div id="sun-box"></div>
+
+<script>
+KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
+  function getPics(callback){
+    var url = 'http://api.flickr.com/services/rest/';
+    var data = {
+      method: 'flickr.photos.search',
+      api_key: '17ba56786c1288b619ff708eeab8c5ab',
+      tags: 'rain',
+      per_page: 10,
+      format: 'json'
+    };
+
+    S.io({
+      url: url,
+      data: data,
+      dataType: 'jsonp',
+      jsonpCallback: 'jsonFlickrApi'
+    }).then(function(argv){
+      var ret = argv[0];
+      callback(null, ret.photos);
+    }).fail(function(e){
+      callback(e);
+    });
+  }
+
+  getPics(function(err, json){
+    console.log(err);
+    if (err) return;
+    console.log(json);
+    var html = '';
+    var tpl = 'http://farm{farm}.staticflickr.com/{server}/{id}_{secret}_{size}.jpg"';
+
+    S.each(json.photo, function(photo){
+
+      photo.size = 's';
+      var src = S.substitute(tpl, photo);
+      photo.size = 'b';
+      var original = S.substitute(tpl, photo);
+
+      html += S.substitute('<img src="{src}" data-original-url="{original}" />', {
+        src: src,
+        original: original
+      });
+
+    });
+
+    S.all('#sun-box').html(html);
+    var albums = new Albums({baseEl: '#sun-box', img: 'img'});
+
+  });
+});
+</script>
+
 </body>
 </html>

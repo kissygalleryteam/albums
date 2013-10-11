@@ -58,7 +58,7 @@ KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
     var url = 'http://api.flickr.com/services/rest/';
     var data = {
       method: 'flickr.photos.search',
-      api_key: '17ba56786c1288b619ff708eeab8c5ab',
+      api_key: 'f0540914e6dbc6634166ded6e46e0beb',
       tags: 'rain',
       per_page: 10,
       format: 'json'
@@ -71,15 +71,19 @@ KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
       jsonpCallback: 'jsonFlickrApi'
     }).then(function(argv){
       var ret = argv[0];
-      callback(null, ret.photos);
+      if (ret.stat == 'fail') {
+        callback(ret);
+      } else {
+        callback(null, ret.photos);
+      }
     }).fail(function(e){
-      callback(e);
+      callback(e, {});
     });
   }
 
   getPics(function(err, json){
     if (err) {
-      S.all('#sun-box').html('error happend, flickr get picture fail!');
+      S.all('#sun-box').html(err.message || 'error happend, flickr get picture fail!');
       return;
     }
     console.log(json);

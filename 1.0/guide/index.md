@@ -81,7 +81,7 @@ src来定位。
    本身，比如图片本遮盖了或者图片上一个放大的icon，可以通过show方法来某个图片。
 2. callback 选填 回调方法
 
-*go(step)* `step` (Number)，向前或者向后几步。
+*go(step)* `step` (Number)，向前或者向后几步，向后为负数。
 
 ### 事件
 

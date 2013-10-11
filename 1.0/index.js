@@ -330,7 +330,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
       var prev = index ? index - 1: len;
       var next = index == len ? 0 : index + 1;
 
-      var origin = this.get('data-original-url');
+      var origin = this.get('origin');
 
       var nowImg = imgList.item(index).attr(origin);
       var prevImg = imgList.item(prev).attr(origin);

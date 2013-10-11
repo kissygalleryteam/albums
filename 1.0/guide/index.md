@@ -4,8 +4,8 @@
 
 - Version 1.0
 - Author 翰文
-- KISSY 1.3+
-- Update 2013-10-11
+- Require KISSY 1.3+
+- Support ie6+
 
 ## 使用方式
 

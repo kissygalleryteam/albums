@@ -234,6 +234,10 @@ KISSY.add('gallery/albums/1.0/plugin/thumb',function(S, $, Base){
         this._wheel(e.wheel);
       }, this);
 
+      this.dialog.on('close:' + id, function(e){
+        this._hide(true);
+      }, this);
+
     },
 
     _shouldShowView: function(){
@@ -703,7 +707,7 @@ KISSY.add('gallery/albums/1.0/plugin/theme',function(S, Node, Base, TPL, XTempla
       var viewW = dialog.getWinWidth();
       var padding = this.get('padding');
 
-      var url = $(target).attr('data-original-url');
+      var url = $(target).attr(host.get('origin'));
       var download = $(target).attr('data-download');
 
       if (!url) url = target.src;
@@ -815,6 +819,8 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
       this.dialog = dialog;
 
       this.plug(new Thumb);
+
+      this._loadedImgs = {};
 
       // 初始化主题
       if (S.isString(theme)) {
@@ -1060,6 +1066,8 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
       index = parseInt(index, 10);
       this.set('index', index);
 
+      this._preLoadImg(index);
+
       dialog.set('bodyContent', this.get('theme').html(target, index));
       dialog.show();
 
@@ -1075,6 +1083,38 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
         callback && callback();
       });
 
+    },
+
+    /**
+     * 自动加载当前图片两边的图片
+     */
+    _preLoadImg: function(index){
+
+      var imgList = this.get('imgList');
+      var len = imgList.length - 1;
+      var prev = index ? index - 1: len;
+      var next = index == len ? 0 : index + 1;
+
+      var origin = this.get('origin');
+
+      var nowImg = imgList.item(index).attr(origin);
+      var prevImg = imgList.item(prev).attr(origin);
+      var nextImg = imgList.item(next).attr(origin);
+
+      this._loadedImgs[nowImg] = true;
+
+      this._loadImg(prevImg);
+      this._loadImg(nextImg);
+
+    },
+
+    _loadImg: function(url){
+      if (url && !this._loadedImgs[url]) {
+        var img = new Image();
+        img.src = url;
+        img = null;
+        this._loadedImgs[url] = true;
+      }
     },
 
     /**
@@ -1097,10 +1137,13 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
       var baseEl = this.get('baseEl');
       var img = this.get('imgList').item(index);
 
+      this._preLoadImg(step);
+
       this.fire('switch', {from: this.get('index'), to: index});
       this.show(img, function(){
         dialog.fire('change:step');
       });
+
     },
 
     _go: function(e){
@@ -1133,13 +1176,17 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
     },
 
     imgList: { value: null },
-    // image selector
-    img: { value: '.J_ImgDD' },
 
-    len: { value: 0},
+    // image selector
+    img: { value: 'img' },
+
+    len: { value: 0 },
 
     // trigger event of open imgView
     trigger: { value: 'click' },
+
+    // 原始url地址，为空的情况，使用图片的src地址
+    origin: { value: 'data-original-url' },
 
     index: { value: 0 },
 

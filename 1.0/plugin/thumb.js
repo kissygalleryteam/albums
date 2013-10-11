@@ -50,6 +50,10 @@ KISSY.add(function(S, $, Base){
         this._wheel(e.wheel);
       }, this);
 
+      this.dialog.on('close:' + id, function(e){
+        this._hide(true);
+      }, this);
+
     },
 
     _shouldShowView: function(){

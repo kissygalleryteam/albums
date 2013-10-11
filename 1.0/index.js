@@ -330,8 +330,13 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
       var prev = index ? index - 1: len;
       var next = index == len ? 0 : index + 1;
 
-      var prevImg = imgList.item(prev).attr('data-original-url');
-      var nextImg = imgList.item(next).attr('data-original-url');
+      var origin = this.get('data-original-url');
+
+      var nowImg = imgList.item(index).attr(origin);
+      var prevImg = imgList.item(prev).attr(origin);
+      var nextImg = imgList.item(next).attr(origin);
+
+      this._loadedImgs[nowImg] = true;
 
       this._loadImg(prevImg);
       this._loadImg(nextImg);
@@ -406,13 +411,17 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
     },
 
     imgList: { value: null },
-    // image selector
-    img: { value: '.J_ImgDD' },
 
-    len: { value: 0},
+    // image selector
+    img: { value: 'img' },
+
+    len: { value: 0 },
 
     // trigger event of open imgView
     trigger: { value: 'click' },
+
+    // 原始url地址，为空的情况，使用图片的src地址
+    origin: { value: 'data-original-url' },
 
     index: { value: 0 },
 

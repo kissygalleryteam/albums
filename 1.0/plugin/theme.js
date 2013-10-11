@@ -127,7 +127,7 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate){
       var viewW = dialog.getWinWidth();
       var padding = this.get('padding');
 
-      var url = $(target).attr('data-original-url');
+      var url = $(target).attr(host.get('origin'));
       var download = $(target).attr('data-download');
 
       if (!url) url = target.src;

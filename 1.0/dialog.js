@@ -89,11 +89,13 @@ KISSY.add(function(S, Overlay, DD){
     var hander;
 
     S.Event.on(window, 'resize', function(){
+
+        winBox = {};
+
         if (dialog.get('visible')) {
           hander && hander.cancel();
 
           hander = S.later(function(){
-            winBox = {};
             var id = dialog.get('album-id');
             dialog.fire('resize:' + id);
           }, 100);

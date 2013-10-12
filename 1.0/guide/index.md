@@ -7,6 +7,82 @@
 - Require KISSY 1.3+
 - Support ie6+
 
+<script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
+<div id="sun-box"></div>
+
+<script>
+var S = KISSY;
+if (S.Config.debug) {
+  var srcPath = "../../../";
+  S.config({
+    packages:[
+      {
+        name: "gallery",
+        path: srcPath,
+        charset: "utf-8",
+        ignorePackageNameInUri: true
+      }
+    ]
+  });
+}
+KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
+  function getPics(callback){
+    var url = 'http://api.flickr.com/services/rest/';
+    var data = {
+      method: 'flickr.photos.search',
+      api_key: 'f0540914e6dbc6634166ded6e46e0beb',
+      tags: 'rain',
+      per_page: 10,
+      format: 'json'
+    };
+
+    S.io({
+      url: url,
+      data: data,
+      dataType: 'jsonp',
+      jsonpCallback: 'jsonFlickrApi'
+    }).then(function(argv){
+      var ret = argv[0];
+      if (ret.stat == 'fail') {
+        callback(ret);
+      } else {
+        callback(null, ret.photos);
+      }
+    }).fail(function(e){
+      callback(e, {});
+    });
+  }
+
+  getPics(function(err, json){
+    if (err) {
+      S.all('#sun-box').html(err.message || 'error happend, flickr get picture fail!');
+      return;
+    }
+    var html = '';
+    var tpl = 'http://farm{farm}.staticflickr.com/{server}/{id}_{secret}_{size}.jpg"';
+
+    S.each(json.photo, function(photo){
+
+      photo.size = 's';
+      var src = S.substitute(tpl, photo);
+      photo.size = 'b';
+      var original = S.substitute(tpl, photo);
+
+      html += S.substitute('<img src="{src}" data-original-url="{original}" data-desc="{title}"/>', {
+        src: src,
+        original: original,
+        title: photo.title
+      });
+
+    });
+
+    S.all('#sun-box').html(html);
+    var albums = new Albums({baseEl: '#sun-box', img: 'img'});
+
+  });
+});
+</script>
+
 ## 使用方式
 
 引入kissy seed

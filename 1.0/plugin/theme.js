@@ -74,7 +74,6 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate){
       } else {
         dialog.get('contentEl').all('.box-main').height(viewH);
       }
-      console.log(viewH)
 
       dialog.get('contentEl').all('.box-aside').height(viewH + 20);
 

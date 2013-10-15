@@ -27,37 +27,38 @@ KISSY.add(function(S, Albums){
     });
   }
 
-  getPics(function(err, json){
-    if (err) {
-      S.all('#sun-box').html(err.message || 'error happend, flickr get picture fail!');
-      return;
-    }
-    var html = '';
-    var tpl = 'http://farm{farm}.staticflickr.com/{server}/{id}_{secret}_{size}.jpg"';
+  //getPics(function(err, json){
 
-    S.each(json.photo, function(photo, i){
+    //if (err) {
+      //S.all('#sun-box').html(err.message || 'error happend, flickr get picture fail!');
+      //return;
+    //}
 
-      photo.size = 's';
-      var src = S.substitute(tpl, photo);
-      photo.size = 'b';
-      var original = S.substitute(tpl, photo);
+    //var html = '';
+    //var tpl = 'http://farm{farm}.staticflickr.com/{server}/{id}_{secret}_{size}.jpg"';
 
-      html += S.substitute('<img id="rain-img-{index}" width=75 height=75 src="{src}" data-original-url="{original}" data-desc="{title}"/>', {
-        src: src,
-        original: original,
-        title: photo.title,
-        index: i
-      });
+    //S.each(json.photo, function(photo, i){
 
-    });
+      //photo.size = 's';
+      //var src = S.substitute(tpl, photo);
+      //photo.size = 'b';
+      //var original = S.substitute(tpl, photo);
 
-    S.all('#rain-tag').html(html);
-    var albums = new Albums({baseEl: '#rain-tag', img: 'img'});
+      //html += S.substitute('<img id="rain-img-{index}" width=75 height=75 src="{src}" data-original-url="{original}" data-desc="{title}"/>', {
+        //src: src,
+        //original: original,
+        //title: photo.title,
+        //index: i
+      //});
 
-    window['album'] = albums;
-    S.use('gallery/albums/1.0/spec/runner');
+    //});
 
-  });
+    //S.all('#rain-tag').html(html);
+  //});
+  var albums = new Albums({baseEl: '#rain-tag', img: 'img'});
+
+  window['album'] = albums;
+  S.use('gallery/albums/1.0/spec/runner');
 
 }, {
   requires: [

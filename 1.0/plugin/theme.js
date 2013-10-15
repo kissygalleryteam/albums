@@ -155,7 +155,7 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate){
   }, { ATTRS: {
 
     // 边距，和css的padding顺序一致，上左下右
-    padding: { value: [ 47, 47 + 240, 47, 47] },
+    padding: { value: [ 47, 47 + 230, 47, 47] },
 
     // 模板
     template: { 

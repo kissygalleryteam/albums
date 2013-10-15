@@ -14,7 +14,7 @@
 
 <style type="text/css">
 .albums-dialog .headline .num {
-  background-color: #333;
+  background-color: transparent;
 }
 #sun-box img {
   padding-right: 4px;

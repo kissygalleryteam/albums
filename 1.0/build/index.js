@@ -100,11 +100,13 @@ KISSY.add('gallery/albums/1.0/dialog',function(S, Overlay, DD){
     var hander;
 
     S.Event.on(window, 'resize', function(){
+
+        winBox = {};
+
         if (dialog.get('visible')) {
           hander && hander.cancel();
 
           hander = S.later(function(){
-            winBox = {};
             var id = dialog.get('album-id');
             dialog.fire('resize:' + id);
           }, 100);
@@ -650,12 +652,13 @@ KISSY.add('gallery/albums/1.0/plugin/theme',function(S, Node, Base, TPL, XTempla
 
       if (S.UA.ie === 6) {
         var viewW = dialog.getWinWidth() - padding[1] - padding[3];
-        dialog.get('contentEl').all('.box-main').css({ width: viewW, height: viewH - 20 });
+        dialog.get('contentEl').all('.box-main').css({ width: viewW, height: viewH });
       } else {
-        dialog.get('contentEl').all('.box-main').height(viewH - 20);
+        dialog.get('contentEl').all('.box-main').height(viewH);
       }
+      console.log(viewH)
 
-      dialog.get('contentEl').all('.box-aside').height(viewH);
+      dialog.get('contentEl').all('.box-aside').height(viewH + 20);
 
     },
 
@@ -735,7 +738,7 @@ KISSY.add('gallery/albums/1.0/plugin/theme',function(S, Node, Base, TPL, XTempla
   }, { ATTRS: {
 
     // 边距，和css的padding顺序一致，上左下右
-    padding: { value: [ 47, 47 + 240, 47, 47] },
+    padding: { value: [ 47, 47 + 230, 47, 47] },
 
     // 模板
     template: { 

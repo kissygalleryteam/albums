@@ -169,6 +169,9 @@ combined files :
 .albums-dialog .ks-contentbox {
   padding: 30px;
 }
+.albums-dialog img {
+  max-width: none !important;
+}
 .albums-dialog .album-loading {
   background: url(http://img03.taobaocdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat center center #ffffff;
 }
@@ -189,8 +192,6 @@ combined files :
   position: absolute;
   max-width: 150px;
   max-height: 150px;
-  border-bottom: 1px solid #666;
-  border-top: 1px solid #666;
 }
 .albums-dialog .album-thumb {
   position: absolute;

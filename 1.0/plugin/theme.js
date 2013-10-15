@@ -70,12 +70,13 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate){
 
       if (S.UA.ie === 6) {
         var viewW = dialog.getWinWidth() - padding[1] - padding[3];
-        dialog.get('contentEl').all('.box-main').css({ width: viewW, height: viewH - 20 });
+        dialog.get('contentEl').all('.box-main').css({ width: viewW, height: viewH });
       } else {
-        dialog.get('contentEl').all('.box-main').height(viewH - 20);
+        dialog.get('contentEl').all('.box-main').height(viewH);
       }
+      console.log(viewH)
 
-      dialog.get('contentEl').all('.box-aside').height(viewH);
+      dialog.get('contentEl').all('.box-aside').height(viewH + 20);
 
     },
 

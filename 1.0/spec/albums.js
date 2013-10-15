@@ -54,6 +54,7 @@ KISSY.add(function(S, Albums){
     S.all('#rain-tag').html(html);
     var albums = new Albums({baseEl: '#rain-tag', img: 'img'});
 
+    window['album'] = albums;
     S.use('gallery/albums/1.0/spec/runner');
 
   });

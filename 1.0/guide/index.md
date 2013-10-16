@@ -170,7 +170,11 @@ src来定位。
    本身，比如图片本遮盖了或者图片上一个放大的icon，可以通过show方法来某个图片。
 2. callback 选填 回调方法
 
-*go(step)* `step` (Number)，向前或者向后几步，向后为负数。
+*go(step, callback)* 
+
+参数：
+1. `step` (Number)，向前或者向后几步，向后为负数。
+2. `callback` (function) 回调函数，图片渲染完成后执行
 
 ### 事件
 

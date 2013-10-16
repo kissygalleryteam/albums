@@ -804,6 +804,28 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
     }
   }
 
+  // @see http://www.sajithmr.me/javascript-check-an-image-is-loaded-or-not
+  function isImageOk(img) {
+    // During the onload event, IE correctly identifies any images that
+    // weren’t downloaded as not complete. Others should too. Gecko-based
+    // browsers act like NS4 in that they report this incorrectly.
+    if (!img.complete) {
+      return false;
+    }
+
+    // However, they do have two very useful properties: naturalWidth and
+    // naturalHeight. These give the true size of the image. If it failed
+    // to load, either of these should be zero.
+
+    if (typeof img.naturalWidth != "undefined" && img.naturalWidth == 0) {
+      return false;
+    }
+
+    // No other way of checking: assume it’s ok.
+    return true;
+  }
+  
+
   S.extend(Albums, Base, /** @lends Albums.prototype*/{
 
     init: function(){
@@ -975,7 +997,7 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
     },
 
     //设置合适屏幕的位置
-    _position: function(el, noAnim){
+    _position: function(el, noAnim, callback){
 
       if (!el.data('loaded')) return;
 
@@ -1039,13 +1061,15 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
       el.css(css);
       dialog.get('contentEl').all('.album-loading').removeClass('album-loading');
       if (!noAnim) {
-        el.fadeIn();
+        el.fadeIn(0.2, callback);
       }
 
       this.set('zoom', zoom);
       this.set('box', { view: [viewW, viewH], img: [w, h] } );
       this.set('position', [css.left, css.top]);
       this.set('scale', zoom);
+
+      if (noAnim) callback && callback();
     },
 
     /**
@@ -1077,14 +1101,21 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
 
       var el = dialog.get('contentEl').all('.J_img');
       var self = this;
-      el.data('loaded', false);
 
-      el.on('load', function(){
-        el.data('loaded', true);
-        self._position(el);
-        callback && callback();
-      });
+      if(isImageOk(el[0])) {
 
+          el.data('loaded', true);
+          self._position(el, null, callback);
+
+      } else {
+
+        el.data('loaded', false);
+        el.on('load', function(){
+          el.data('loaded', true);
+          self._position(el, null, callback);
+        });
+
+      }
     },
 
     /**
@@ -1122,9 +1153,11 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
     /**
      * 移动步数，正数向前，负数向后
      */
-    go: function(step){
+    go: function(step, callback){
 
       step = parseInt(step, 10);
+      this._setEls();
+      
       var len = this.get('imgList').length;
       var index = this.get('index') + step;
 
@@ -1144,6 +1177,7 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
       this.fire('switch', {from: this.get('index'), to: index});
       this.show(img, function(){
         dialog.fire('change:step');
+        callback && callback();
       });
 
     },

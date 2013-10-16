@@ -56,8 +56,17 @@ KISSY.add(function(S, Albums){
     //S.all('#rain-tag').html(html);
   //});
   var albums = new Albums({baseEl: '#rain-tag', img: 'img'});
-  window['album'] = albums;
-  S.use('gallery/albums/1.0/spec/runner');
+  S.all('img', '#rain-tag').each(function(img){
+    var imgEl = new Image()
+    imgEl.src = img.attr('data-original-url')
+    imgEl = null
+  })
+
+  // 等待3s，加载图片
+  S.later(function(){
+    window['album'] = albums;
+    S.use('gallery/albums/1.0/spec/runner');
+  }, 3000)
 
 }, {
   requires: [

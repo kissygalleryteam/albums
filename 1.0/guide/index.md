@@ -2,6 +2,8 @@
 用户点击图片，图片查看器出现，控制整个窗口，自动根据浏览器窗口显示图片，用户可以
 对图片进行放大选择拖拽等行为操作。
 
+[![Build Status](https://travis-ci.org/shepherdwind/albums.png?branch=master)](https://travis-ci.org/shepherdwind/albums)
+
 - Version 1.0
 - Author 翰文
 - Require KISSY 1.3+

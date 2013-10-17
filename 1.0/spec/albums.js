@@ -62,11 +62,11 @@ KISSY.add(function(S, Albums){
     imgEl = null
   })
 
-  // 等待3s，加载图片
+  // 等待5s，加载图片
   S.later(function(){
     window['album'] = albums;
     S.use('gallery/albums/1.0/spec/runner');
-  }, 3000)
+  }, 5000)
 
 }, {
   requires: [

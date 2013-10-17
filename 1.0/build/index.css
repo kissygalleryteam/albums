@@ -226,6 +226,7 @@ combined files :
   _top: 7px;
   _right: 37px;
   background-color: #F5F5F5;
+  overflow-y: auto;
 }
 .albums-dialog .box-aside .aside-wrap {
   padding: 10px;

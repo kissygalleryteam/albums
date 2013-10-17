@@ -9,13 +9,19 @@ KISSY.add(function(S, Overlay, DD){
 
   var contentEl;
   //禁止滚动事件和隐藏滚轮
-  dialog.on('show', function(){
+  dialog.on('beforeVisibleChange', function(e){
+
+    if(e.prevVal) return;
+    winBox = {}
 
     S.Event.on(document, 'mousewheel', function(e){
       var id = dialog.get('album-id');
-      dialog.fire('wheel:' + id, { wheel: [e.deltaX || 0, e.deltaY || 0] });
-      e.halt();
+      if (S.all(e.target).hasClass('.J_img')) {
+        dialog.fire('wheel:' + id, { wheel: [e.deltaX || 0, e.deltaY || 0] });
+        e.halt();
+      }
     });
+
     S.all('html').css('overflow-y', 'hidden')
     dialog.stopDD();
 

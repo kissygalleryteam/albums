@@ -20,13 +20,19 @@ KISSY.add('gallery/albums/1.0/dialog',function(S, Overlay, DD){
 
   var contentEl;
   //禁止滚动事件和隐藏滚轮
-  dialog.on('show', function(){
+  dialog.on('beforeVisibleChange', function(e){
+
+    if(e.prevVal) return;
+    winBox = {}
 
     S.Event.on(document, 'mousewheel', function(e){
       var id = dialog.get('album-id');
-      dialog.fire('wheel:' + id, { wheel: [e.deltaX || 0, e.deltaY || 0] });
-      e.halt();
+      if (S.all(e.target).hasClass('.J_img')) {
+        dialog.fire('wheel:' + id, { wheel: [e.deltaX || 0, e.deltaY || 0] });
+        e.halt();
+      }
     });
+
     S.all('html').css('overflow-y', 'hidden')
     dialog.stopDD();
 
@@ -1234,6 +1240,9 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
     rotation: { value: 0 },
 
     scale: { value: 1 },
+
+    // 是否开启预览，如果ie 8一下，不开启
+    preview: { value: S.UA.ie > 7 || !S.UA.ie },
 
     theme: { value: 'gallery/albums/1.0/plugin/theme' }
 

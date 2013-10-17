@@ -468,6 +468,9 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
 
     scale: { value: 1 },
 
+    // 是否开启预览，如果ie 8一下，不开启
+    preview: { value: S.UA.ie > 7 || !S.UA.ie },
+
     theme: { value: 'gallery/albums/1.0/plugin/theme' }
 
   }});

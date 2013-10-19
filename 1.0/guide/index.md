@@ -13,6 +13,7 @@
 
 首先看一个demo: 
 <div id="sun-box"></div>
+<br>
 
 仿微博主题：
 <div id="weibo-box"></div>
@@ -218,9 +219,11 @@ swicht事件对象返回切换前的index `from` 和切换后的index `to`
 本页首页的微博主题初始化如下：
 
 ```js
-new Albums({
-  baseEl: '#weibo-box',
-  theme: 'gallery/albums/1.0/theme/weibo'
+KISSY.use('gallery/albums/1.0/index, gallery/albums/1.0/theme/weibo', function(Albums){
+  new Albums({
+    baseEl: '#weibo-box',
+    theme: 'gallery/albums/1.0/theme/weibo'
+  });
 });
 ```
 

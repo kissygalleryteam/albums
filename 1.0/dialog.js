@@ -3,7 +3,6 @@ KISSY.add(function(S, Overlay, DD){
   var drag;
   var dialog = new S.Dialog({
       width: '100%',
-      height: '100%',
       elCls: 'albums-dialog'
   });
 
@@ -18,7 +17,7 @@ KISSY.add(function(S, Overlay, DD){
       var id = dialog.get('album-id');
       if (S.all(e.target).hasClass('.J_img')) {
         dialog.fire('wheel:' + id, { wheel: [e.deltaX || 0, e.deltaY || 0] });
-        e.halt();
+        //e.halt();
       }
     });
 

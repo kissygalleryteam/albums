@@ -3,7 +3,7 @@
  * @author hanwen.sah<hanwen.sah@taobao.com>
  * @module albums
  **/
-KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
+KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate) {
 
   var EMPTY = '';
   var $ = Node.all;
@@ -75,7 +75,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
       this._bindEvent();
       this.dialog = dialog;
 
-      this.plug(new Thumb);
+      //this.plug(new Thumb);
 
       this._loadedImgs = {};
 
@@ -86,6 +86,12 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
         this.set('theme', new theme(this));
       }
 
+      this.fire('initialized');
+
+    },
+
+    hide: function(){
+      dialog.hide();
     },
 
     _setEls: function(){
@@ -113,7 +119,6 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
       dialog.on('hander:' + id, this._go, this);
       dialog.on('action:' + id, this._action, this);
       dialog.on('resize:' + id, this._resize, this);
-      dialog.on('turn:' + id, this._turn, this);
 
       var self = this;
       //键盘事件前进后退
@@ -138,6 +143,8 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
         this._rotation(90);
       } else if (action == 'zoom') {
         this._zoom($(target));
+      } else if (action == 'close') {
+        dialog.hide();
       }
 
     },
@@ -235,57 +242,23 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
       if (!el.data('loaded')) return;
 
       var box = getNaturlWidth(el);
-      var padding = this.get('theme').get('padding');
+      var theme = this.get('theme');
+      var padding = theme.get('padding');
 
       var viewH = dialog.getWinHeight() - padding[0] - padding[2];
       var viewW = dialog.getWinWidth() - padding[1] - padding[3];
       var h = box.height;
       var w = box.width;
-      var top = 0, left = 0;
+
+      var zoomAndPos = theme.getZoom(w, h, viewW, viewH);
       var display = noAnim ? 'inline' : 'none';
-      var css = {
-        top: top, 
-        left: left,
+
+      var css = S.mix({
         position: 'relative',
         display: display
-      };
+      }, zoomAndPos.offset);
 
-      //适合缩放比例
-      var zoom = 1;
-      var ie = S.UA.ie;
-
-      if (h > viewH || w > viewW) {
-
-        if (h / viewH > w / viewW) {
-
-          zoom = viewH / h;
-
-          if (ie && ie < 9) {
-            css.left = (viewW - w * zoom) / 2;
-          } else {
-            css.top = - (h - viewH) / 2;
-            css.left = (viewW - w ) / 2;
-          }
-
-        } else {
-
-          zoom = viewW / w;
-
-          if (ie && ie < 9) {
-            css.top = (viewH - h * zoom) / 2;
-          } else {
-            css.top = (viewH - h) / 2;
-            css.left = - (w - viewW) / 2;
-          }
-
-        }
-
-      } else {
-
-        css.left = (viewW - w) / 2;
-        css.top = (viewH - h) / 2;
-
-      }
+      var zoom = zoomAndPos.zoom;
 
       if (!noAnim || noAnim === 1) {
         css = S.mix(rotate(0, zoom), css);
@@ -428,12 +401,6 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
       var box = this.get('box');
       var scale = this.get('scale');
       return box.img[0] * scale > box.view[0] || box.img[1] * scale > box.view[1];
-    },
-
-    _turn: function(){
-      if (!this.isOutBoundary()) {
-        this.go(1);
-      }
     }
 
   }, {ATTRS : /** @lends Albums*/{
@@ -484,6 +451,5 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate, Thumb) {
   'anim',
   './dialog',
   './rotate',
-  './plugin/thumb',
   './theme/default'
 ]});

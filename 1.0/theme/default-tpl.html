@@ -8,6 +8,8 @@
     </div>
     <div class="box">   
 
+      <a class="close action" data-action="close" href="#nowhere">&times;</a>
+
       <div class="album-action-bar">
         <a class="album-big action" data-action="zoom" href="#nowhere"></a>
         <a class="album-small action" data-action="zoom" href="#nowhere"></a>
@@ -29,7 +31,8 @@
       </div>   
       <div class="box-aside" style="height: {{h}}px">   
         <div class="aside-wrap">  
-          <div class="headline"><em class="J_num num">{{index + 1}}/{{len}}</em>{{title}} [<a class="action" data-action="fullscreen" href="#nowhere">全屏</a>]
+          <div class="headline"><em class="J_num num">{{index + 1}}/{{len}}</em>{{title}}
+            [<a class="action" data-action="fullscreen" href="#nowhere">全屏</a>]
           </div>  
           {{#if desc}}
           <p class="J_desc desc">{{prefix}}: {{{desc}}}</p>  

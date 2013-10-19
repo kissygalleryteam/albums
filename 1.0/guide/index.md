@@ -14,38 +14,44 @@
 首先看一个demo: 
 <div id="sun-box"></div>
 
+仿微博主题：
+<div id="weibo-box"></div>
+
 <style type="text/css">
 .albums-dialog .headline .num {
   background-color: transparent;
+  color: #333;
 }
+#weibo-box img,
 #sun-box img {
   padding-right: 4px;
 }
 </style>
 
 <script>
-var S = KISSY;
-if (S.Config.debug) {
-  var srcPath = "../../../";
-  S.config({
-    packages:[
-      {
-        name: "gallery",
-        path: srcPath,
-        charset: "utf-8",
-        ignorePackageNameInUri: true
-      }
-    ]
-  });
-}
-KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
+
+  var S = KISSY;
+  if (S.Config.debug) {
+    var srcPath = "../../../";
+    S.config({
+      packages:[
+        {
+          name: "gallery",
+          path: srcPath,
+          charset: "utf-8",
+          ignorePackageNameInUri: true
+        }
+      ]
+    });
+  }
+
   function getPics(callback){
     var url = 'http://api.flickr.com/services/rest/';
     var data = {
       method: 'flickr.photos.search',
       api_key: 'f0540914e6dbc6634166ded6e46e0beb',
       tags: 'rain',
-      per_page: 10,
+      per_page: 20,
       format: 'json'
     };
 
@@ -66,15 +72,12 @@ KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
     });
   }
 
-  getPics(function(err, json){
-    if (err) {
-      S.all('#sun-box').html(err.message || 'error happend, flickr get picture fail!');
-      return;
-    }
+  function getHtml(photos){
+
     var html = '';
     var tpl = 'http://farm{farm}.staticflickr.com/{server}/{id}_{secret}_{size}.jpg"';
 
-    S.each(json.photo, function(photo){
+    S.each(photos, function(photo){
 
       photo.size = 's';
       var src = S.substitute(tpl, photo);
@@ -88,11 +91,32 @@ KISSY.use('gallery/albums/1.0/index, ajax', function(S, Albums, io){
       });
 
     });
+    return html;
+  }
+KISSY.use('gallery/albums/1.0/index, ajax, gallery/albums/1.0/theme/weibo', function(S, Albums, io){
+    getPics(function(err, json){
+      if (err) {
+        S.all('#sun-box').html(err.message || 'error happend, flickr get picture fail!');
+        return;
+      }
 
-    S.all('#sun-box').html(html);
-    var albums = new Albums({baseEl: '#sun-box', img: 'img'});
+      if (json.photo && json.photo.length) {
 
-  });
+        var html1 = getHtml(json.photo.slice(0, 10));
+        S.all('#sun-box').html(html1);
+        var albums = new Albums({baseEl: '#sun-box', img: 'img'});
+
+        var html2 = getHtml(json.photo.slice(10));
+        S.all('#weibo-box').html(html2);
+        var albums = new Albums({
+          baseEl: '#weibo-box',
+          theme: 'gallery/albums/1.0/theme/weibo'
+        });
+
+      }
+
+    });
+
 });
 </script>
 
@@ -184,4 +208,66 @@ swicht事件对象返回切换前的index `from` 和切换后的index `to`
 
 ## 自定义主题
 
-需要自定义主题，首先需要了解Albums的整体设计。文档后面再补上。
+需要自定义主题，参考源码中的仿微博的主题。主题主要由3部分组成，以微博主题为例，
+主要是3个文件：
+
+1. theme/weibo.js 这个对象为入口文件，引用模板和样式
+2. theme/weibo-tpl.html 这个是模板，模板最后需要打包成一个js文件
+3. theme/css/weibo.less 只是样式文件，生成一个css
+
+本页首页的微博主题初始化如下：
+
+```js
+new Albums({
+  baseEl: '#weibo-box',
+  theme: 'gallery/albums/1.0/theme/weibo'
+});
+```
+
+通过theme参数配置主题的包路径，需要注意的是，首先必须use(或者requires) theme对应的包。
+
+### 主题模板
+
+模板最外层是主题名，比如默认主题`default`，主题对应的最外层class名就是
+`theme-default`。 并且这个样式名能够完全控制整个图片查看器的样式，这样也为了避免
+多个主题同时存在的时候，样式冲突的问题。
+
+通常情况下，使用box-main来放图片的容器，box-aside作为边栏图片相关信息。此外，
+一个class为`action`的dom的点击事件，可以在主题中获取到，比如，图片放大的按钮：
+
+```html
+<a class="album-big action" data-action="zoom" href="#nowhere"></a>
+```
+
+主题js捕获事件如下：
+
+```js
+// 主题对象的host对象就是Album对象
+var host = this.host;
+var id = host.get('id');
+// 鼠标点击出发事件
+host.dialog.on('action:' + id, this._action, this);
+```
+
+获取到的是`action`事件，不过因为多个Album对象公用一个dialog，所以，当前激活的 只
+有一个Album，这个Album的实例的id和dialog的album-id相等。action事件需要增加 一个
+id在边上。
+
+模板可以随意写，最好参考weibo-tpl或者default-tpl，唯一的约定是，图片必须 有一个
+`J_img`的class。
+
+### 主题对象
+
+主题对象继承自Base，必须实现的两个方法是getZoom和html方法。
+
+getZoom返回图片相对于图片容器的缩放比例和位置，需要注意的是，这里计算可能很复杂
+，计算的时候使用的css3的scale来进行缩放，在高级浏览器中，scale缩放是以图片 中心
+点缩放的，缩放会导致图片的位置偏移。而函数返回的offset是相对于图片容器(0, 0)位置
+计算的，缩放后图片会相对于容易偏移一定的位置，这部分需要被减去。
+
+html方法返回dialog对应的一段html代码，这个在点击图片，页面resize的时候，都会 执
+行一遍。
+
+### 主题样式
+
+样式参考已有的改改就行。

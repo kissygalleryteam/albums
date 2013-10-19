@@ -29,6 +29,10 @@ module.exports = function(grunt) {
                     {
                         src: "<%= pkg.version %>/index.js",
                         dest: "<%= pkg.version %>/build/index.js"
+                    },
+                    {
+                        src: "<%= pkg.version %>/theme/weibo.js",
+                        dest: "<%= pkg.version %>/build/theme/weibo.js"
                     }
                 ]
             }
@@ -44,7 +48,8 @@ module.exports = function(grunt) {
             },
             base: {
                 files: {
-                    '<%= pkg.version %>/build/index-min.js': ['<%= pkg.version %>/build/index.js']
+                    '<%= pkg.version %>/build/index-min.js': ['<%= pkg.version %>/build/index.js'],
+                    '<%= pkg.version %>/build/theme/weibo-min.js': ['<%= pkg.version %>/build/theme/weibo.js']
                 }
             }
         },

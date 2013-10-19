@@ -8,17 +8,17 @@
   left: 0;
   z-index: 10003;
 
-  .ks-ext-close { display: none; }
-
 }
 
-.theme-default {
+.theme-weibo {
 
-  .bgfade(#000, 0.5);
+  .bgfade(#000, 0.75);
   width: 100%;
-  height: 100%;
 
-  .theme-wrap { padding: 30px; }
+  .theme-wrap { 
+    padding: 20px; 
+    overflow-y: auto;
+  }
 
   .close {
     display: block;
@@ -31,57 +31,23 @@
     position: absolute;
     right: 15px;
     top: 18px;
-    z-index: 2;
     &:hover {
       background-color: #666;
       color: #eee;
     }
   }
-  img { max-width: none !important; }
 
+  img { max-width: none !important; }
 
   .album-loading {
     background: url(http://img03.taobaocdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat center center #fff;
   }
 
-  .album-preview-box {
-    width: 150px;
-    height: 150px;
-    position: absolute;
-    border: 1px solid #808080;
-    left: 10px;
-    top: 10px;
-    z-index: 2;
-    overflow: hidden;
-    visibility: hidden;
-    /*background-color: #000;*/
-
-    img {
-      position: absolute;
-      max-width: 150px;
-      max-height: 150px;
-    }
-
-  }
-
-  .album-thumb {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    top: -150px;
-    left: -140px;
-    border: 150px solid rgba(0,0,0, 0.4);
-    margin: 149px\9;
-    border: 1px solid #000\9;
-  }
-
   .box-main {
     position: relative;
-    overflow: hidden;
     margin-right: 230px;
-    border: 10px solid #fff;
-    background-color: #fff;
+    background-color: #000;
+    height: 100%;
 
     img {
       -webkit-transition: -webkit-transform .2s linear;
@@ -98,10 +64,9 @@
     position: absolute;
     top: 0;
     right: 0;
-    _top: 7px;
-    _right: 37px;
-    background-color: #F5F5F5;
-    overflow-y: auto;
+    margin-bottom: -4000px;
+    padding-bottom: 4000px;
+    background-color: #fafafa;
 
     .aside-wrap {
       padding: 10px;
@@ -127,9 +92,9 @@
 
   }
 
-  .box {
+  .box { 
     position: relative;
-    border: 7px solid #8F8F8F;
+    overflow: hidden;
   }
 
   .handers {
@@ -170,15 +135,12 @@
 
   background-color: #000;
 
-  .theme-wrap { padding: 0; }
-
-  .close { 
-    background-color: transparent;
-    color: #999; 
-    &:hover {
-      background-color: transparent;
-    }
+  .ks-ext-close {
+    top: 20px;
+    right: 20px;
   }
+
+  .theme-wrap { padding: 0; }
 
   .box { border: none; }
 

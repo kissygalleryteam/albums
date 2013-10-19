@@ -94,18 +94,22 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate){
       if (this._paddingBackup) {
         this.set('padding', this._paddingBackup);
         delete this._paddingBackup;
-        dialog.get('el').removeClass('fullscreen');
+
+        this.set('fullscreen', '');
         // 关闭fullscreen
         fullScreen(true);
+        // 重新渲染图片查看器
+        this.host.go(0);
       }
     },
 
     // 全屏查看
     _fullscreen: function(){
       //console.log(dialog);
-      dialog.get('el').addClass('fullscreen');
+      //dialog.get('el').addClass('fullscreen');
       var padding = this.get('padding');
       var host = this.host;
+      this.set('fullscreen', ' fullscreen');
       // 缓存老的
       this._paddingBackup = padding;
       this.set('padding', [10, 10, 10, 10]);
@@ -133,6 +137,7 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate){
       if (!url) url = target.src;
 
       var len = host.get('len');
+      var fullscreen = this.get('fullscreen');
 
       var obj = {
         src: url,
@@ -142,6 +147,7 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate){
         h: viewH - padding[0] - padding[2],
         w: S.UA.ie === 6 ? viewW - padding[1] - padding[3] : null,
         desc: $(target).attr('data-desc') || '',
+        theme: 'theme-' + this.get('name') + fullscreen,
         download: download
       };
 
@@ -156,6 +162,10 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate){
 
     // 边距，和css的padding顺序一致，上左下右
     padding: { value: [ 47, 47 + 230, 47, 47] },
+
+    name: { value: 'default' },
+
+    fullscreen: { value: '' },
 
     // 模板
     template: { 
@@ -179,6 +189,6 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate){
     'base',
     './album-tpl',
     'xtemplate',
-    '../index.css'
+    './css/default.css'
   ]
 });

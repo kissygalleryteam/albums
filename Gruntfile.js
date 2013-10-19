@@ -53,9 +53,9 @@ module.exports = function(grunt) {
                 files:[
                     {
                         expand:true,
-                        cwd:'<%= pkg.version %>/',
+                        cwd:'<%= pkg.version %>/theme/css/',
                         src:['*.css'],
-                        dest:'<%= pkg.version %>/build/'
+                        dest:'<%= pkg.version %>/build/theme/css/'
                     }
                 ]
             }
@@ -63,9 +63,9 @@ module.exports = function(grunt) {
         cssmin:{
             minify:{
                 expand:true,
-                cwd:'<%= pkg.version %>/build/',
+                cwd:'<%= pkg.version %>/build/theme/css/',
                 src:['*.css', '!*-min.css'],
-                dest:'<%= pkg.version %>/build/',
+                dest:'<%= pkg.version %>/build/theme/css/',
                 ext:'-min.css'
             }
         },
@@ -74,9 +74,9 @@ module.exports = function(grunt) {
             files: [
               {
                 expand:true,
-                cwd:'<%= pkg.version %>/',
+                cwd:'<%= pkg.version %>/theme/',
                 src:['*-tpl.html'],
-                dest: '<%= pkg.version %>/',
+                dest: '<%= pkg.version %>/theme/',
                 ext: '.js'
               }
             ]

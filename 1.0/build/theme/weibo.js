@@ -47,6 +47,7 @@ KISSY.add('gallery/albums/1.0/theme/weibo',function(S, Node, Base, TPL, XTemplat
       var padding = this.get('padding');
       var viewH = dialog.getWinHeight() - padding[0] - padding[2];
       dialog.get('contentEl').all('.theme-wrap').height(viewH);
+      dialog.get('contentEl').all('.box-main').css('min-height', viewH);
 
     },
 
@@ -80,7 +81,7 @@ KISSY.add('gallery/albums/1.0/theme/weibo',function(S, Node, Base, TPL, XTemplat
       if (w > viewW) {
         zoom = viewW / w;
         offset.left = - (w - viewW) / 2;
-        offset.top = - (viewH - h) / 2;
+        offset.top = (h * zoom > viewH) ? (- h * ( 1 - zoom) / 2 ): 0;
       }  else {
         offset.left = (viewW - w * zoom) / 2;
       }
@@ -89,6 +90,10 @@ KISSY.add('gallery/albums/1.0/theme/weibo',function(S, Node, Base, TPL, XTemplat
         offset.top = (viewH - h) / 2;
       } else {
         offset.left -= 5;
+      }
+
+      if (zoom < 1) {
+        dialog.get('contentEl').all('.box-main').css('height', h * zoom);
       }
 
       return {

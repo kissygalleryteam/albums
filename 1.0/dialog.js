@@ -13,15 +13,18 @@ KISSY.add(function(S, Overlay, DD){
     if(e.prevVal) return;
     winBox = {}
 
-    S.Event.on(document, 'mousewheel', function(e){
+    S.Event.on(dialog.get('contentEl'), 'mousewheel', function(e){
       var id = dialog.get('album-id');
       if (S.all(e.target).hasClass('.J_img')) {
         dialog.fire('wheel:' + id, { wheel: [e.deltaX || 0, e.deltaY || 0] });
-        //e.halt();
       }
+      //e.halt();
     });
 
-    S.all('html').css('overflow-y', 'hidden')
+    S.all('body').css({
+      'overflow-y': 'hidden',
+      'overflow': 'hidden'
+    });
     dialog.stopDD();
 
   });
@@ -41,8 +44,11 @@ KISSY.add(function(S, Overlay, DD){
   //恢复滚动和滚轮
   dialog.on('hide', function(){
 
-    S.Event.detach(document, 'mousewheel');
-    S.all('html').css('overflow-y', 'auto')
+    //S.Event.detach(document, 'mousewheel');
+    S.all('body').css({
+      'overflow-y': 'auto',
+      'overflow': 'auto'
+    });
     //发布关闭事件
     distribution('close')({});
 

@@ -11,7 +11,7 @@
 
 <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
 
-首先看一个demo: 
+首先看一个demo : 
 <div id="sun-box"></div>
 <br>
 

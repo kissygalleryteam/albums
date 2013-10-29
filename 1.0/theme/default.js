@@ -101,7 +101,7 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate, Thumb){
     },
 
     // 推出全屏
-    _exitFullsreen: function(){
+    _exitFullsreen: function(e){
       if (this._paddingBackup) {
         this.set('padding', this._paddingBackup);
         delete this._paddingBackup;
@@ -109,8 +109,10 @@ KISSY.add(function(S, Node, Base, TPL, XTemplate, Thumb){
         this.set('fullscreen', '');
         // 关闭fullscreen
         fullScreen(true);
-        // 重新渲染图片查看器
-        this.host.go(0);
+        if (!e) {
+          // 重新渲染图片查看器
+          this.host.go(0);
+        }
       }
     },
 

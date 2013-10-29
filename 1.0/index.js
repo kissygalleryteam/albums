@@ -331,6 +331,8 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate) {
 
       var imgList = this.get('imgList');
       var len = imgList.length - 1;
+      if (!len) return;
+
       var prev = index ? index - 1: len;
       var next = index == len ? 0 : index + 1;
 
@@ -400,7 +402,9 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate) {
     isOutBoundary: function(){
       var box = this.get('box');
       var scale = this.get('scale');
-      return box.img[0] * scale > box.view[0] || box.img[1] * scale > box.view[1];
+      // add 1px for error possable
+      return box.img[0] * scale > box.view[0] + 1|| 
+        box.img[1] * scale > box.view[1] + 1;
     }
 
   }, {ATTRS : /** @lends Albums*/{

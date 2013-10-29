@@ -21,10 +21,7 @@ KISSY.add(function(S, Overlay, DD){
       //e.halt();
     });
 
-    S.all('body').css({
-      'overflow-y': 'hidden',
-      'overflow': 'hidden'
-    });
+    S.all('html').css({'overflow': 'hidden'});
     dialog.stopDD();
 
   });
@@ -45,10 +42,7 @@ KISSY.add(function(S, Overlay, DD){
   dialog.on('hide', function(){
 
     //S.Event.detach(document, 'mousewheel');
-    S.all('body').css({
-      'overflow-y': 'auto',
-      'overflow': 'auto'
-    });
+    S.all('html').css({ 'overflow': 'auto' });
     //发布关闭事件
     distribution('close')({});
 

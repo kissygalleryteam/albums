@@ -32,10 +32,7 @@ KISSY.add('gallery/albums/1.0/dialog',function(S, Overlay, DD){
       //e.halt();
     });
 
-    S.all('body').css({
-      'overflow-y': 'hidden',
-      'overflow': 'hidden'
-    });
+    S.all('html').css({'overflow': 'hidden'});
     dialog.stopDD();
 
   });
@@ -56,10 +53,7 @@ KISSY.add('gallery/albums/1.0/dialog',function(S, Overlay, DD){
   dialog.on('hide', function(){
 
     //S.Event.detach(document, 'mousewheel');
-    S.all('body').css({
-      'overflow-y': 'auto',
-      'overflow': 'auto'
-    });
+    S.all('html').css({ 'overflow': 'auto' });
     //发布关闭事件
     distribution('close')({});
 
@@ -694,7 +688,7 @@ KISSY.add('gallery/albums/1.0/theme/default',function(S, Node, Base, TPL, XTempl
     },
 
     // 推出全屏
-    _exitFullsreen: function(){
+    _exitFullsreen: function(e){
       if (this._paddingBackup) {
         this.set('padding', this._paddingBackup);
         delete this._paddingBackup;
@@ -702,8 +696,10 @@ KISSY.add('gallery/albums/1.0/theme/default',function(S, Node, Base, TPL, XTempl
         this.set('fullscreen', '');
         // 关闭fullscreen
         fullScreen(true);
-        // 重新渲染图片查看器
-        this.host.go(0);
+        if (!e) {
+          // 重新渲染图片查看器
+          this.host.go(0);
+        }
       }
     },
 
@@ -1189,6 +1185,8 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
 
       var imgList = this.get('imgList');
       var len = imgList.length - 1;
+      if (!len) return;
+
       var prev = index ? index - 1: len;
       var next = index == len ? 0 : index + 1;
 
@@ -1258,7 +1256,9 @@ KISSY.add('gallery/albums/1.0/index',function (S, Node, Base, Overlay, Anim, dia
     isOutBoundary: function(){
       var box = this.get('box');
       var scale = this.get('scale');
-      return box.img[0] * scale > box.view[0] || box.img[1] * scale > box.view[1];
+      // add 1px for error possable
+      return box.img[0] * scale > box.view[0] + 1|| 
+        box.img[1] * scale > box.view[1] + 1;
     }
 
   }, {ATTRS : /** @lends Albums*/{

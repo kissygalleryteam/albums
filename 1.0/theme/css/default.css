@@ -20,6 +20,9 @@
 .albums-dialog .ks-ext-close {
   display: none;
 }
+.album-mask {
+  overflow: hidden !important;
+}
 .theme-default {
   background-color: rgba(0, 0, 0, 0.5);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=#80000000, endColorstr=#80000000,GradientType=0 );
@@ -63,7 +66,6 @@
   overflow: hidden;
   visibility: hidden;
   /*background-color: #000;*/
-
 }
 .theme-default .album-preview-box img {
   position: absolute;

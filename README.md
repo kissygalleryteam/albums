@@ -8,6 +8,6 @@
 
 ## changelog
 
-### V1.0
+### V1.1 by 明河
 
-hello test;
+* 修正kissy1.4的兼容性问题

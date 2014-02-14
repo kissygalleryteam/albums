@@ -1,0 +1,11 @@
+{
+  "global":{
+    "writeFile":false,
+    "uploadImgs":true,
+    "force8bit":true,
+    "layout":"close"
+  },
+  "maps":{
+    "./icons-sprite8.png":"http://gtms03.alicdn.com/tps/i3/T1FVftFdBbXXXRy1nV-268-186.png"
+  }
+}

@@ -1,0 +1,133 @@
+/** generate by joycss v0.5.3, on time: 2013-10-08 10:08:28 */
+.album-big:hover,
+.icons:hover .album-big,
+.album-big,
+.album-small:hover,
+.icons:hover .album-small,
+.album-small,
+.ks-ext-close,
+.next:hover,
+.icons:hover .next,
+.next,
+.prev:hover,
+.icons:hover .prev,
+.prev,
+.rotation-con:hover,
+.icons:hover .rotation-con,
+.rotation-con,
+.rotation-pro:hover,
+.icons:hover .rotation-pro,
+.rotation-pro {
+  background-image: url(http://gtms03.alicdn.com/tps/i3/T1FVftFdBbXXXRy1nV-268-186.png);
+  background-repeat: no-repeat;
+}
+.album-big:hover,
+.icons:hover .album-big {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: 0 0;
+}
+.album-big {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: 0 -124px;
+}
+.album-small:hover,
+.icons:hover .album-small {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: 0 -62px;
+}
+.album-small {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -62px -62px;
+}
+.ks-ext-close {
+  width: 21px;
+  height: 21px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -227px -128px;
+}
+.next:hover,
+.icons:hover .next {
+  width: 31px;
+  height: 54px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -227px 0;
+}
+.next {
+  width: 31px;
+  height: 54px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -227px -64px;
+}
+.prev:hover,
+.icons:hover .prev {
+  width: 31px;
+  height: 54px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -186px -64px;
+}
+.prev {
+  width: 31px;
+  height: 54px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -186px 0;
+}
+.rotation-con:hover,
+.icons:hover .rotation-con {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -62px -124px;
+}
+.rotation-con {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -124px -62px;
+}
+.rotation-pro:hover,
+.icons:hover .rotation-pro {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -124px 0;
+}
+.rotation-pro {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  *zoom: 1;
+  *display: inline;
+  background-position: -62px 0;
+}

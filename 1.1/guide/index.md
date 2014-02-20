@@ -11,7 +11,7 @@
 
 v1.1 by 明河：兼容kissy1.4.0+
 
-<script src="//g.tbcdn.cn/kissy/k/1.4.0/seed-min.js" charset="utf-8"></script>
+<script src="//g.tbcdn.cn/kissy/k/1.4.1/seed-min.js" charset="utf-8"></script>
 
 首先看一个demo: 
 <div id="sun-box"></div>

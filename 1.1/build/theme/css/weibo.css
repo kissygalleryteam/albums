@@ -158,6 +158,9 @@ combined files :
   left: 0;
   z-index: 10003;
 }
+.ks-dialog-hidden {
+  display: none;
+}
 .theme-weibo {
   background-color: rgba(0, 0, 0, 0.75);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=#BF000000, endColorstr=#BF000000,GradientType=0 );

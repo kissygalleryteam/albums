@@ -1,7 +1,7 @@
 <div class="theme-box {{theme}}">
   <div class="theme-wrap">
     <div class="handers">
-      {{#if len !== 1}}
+      {{#if len!==1}}
       <span class="prev album-prev hander">&lt;</span>   
       <span class="next album-next hander">&gt;</span>   
       {{/if}}
@@ -22,7 +22,7 @@
         <div class="album-thumb"></div>
       </div>
 
-      <div class="box-main album-loading" style="height: {{h - 20}}px; {{#if w}}width: {{w}}px; {{/if}}">  
+      <div class="box-main album-loading" style="height: {{h-20}}px; {{#if w}}width: {{w}}px; {{/if}}">
         {{#if download}}
           <a href="{{download}}"><img class="{{imgCls}}" src="{{src}}" alt="" /></a>
         {{else}}
@@ -31,7 +31,7 @@
       </div>   
       <div class="box-aside" style="height: {{h}}px">   
         <div class="aside-wrap">  
-          <div class="headline"><em class="J_num num">{{index + 1}}/{{len}}</em>{{title}}
+          <div class="headline"><em class="J_num num">{{index+1}}/{{len}}</em>{{title}}
             [<a class="action" data-action="fullscreen" href="#nowhere">全屏</a>]
           </div>  
           {{#if desc}}

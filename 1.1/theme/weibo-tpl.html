@@ -1,7 +1,7 @@
 <div class="theme-box {{theme}}">
   <div class="theme-wrap" style="height: {{h}}px">
     <div class="handers">
-      {{#if len !== 1}}
+      {{#if len!==1}}
       <span class="prev album-prev hander">&lt;</span>   
       <span class="next album-next hander">&gt;</span>   
       {{/if}}
@@ -15,7 +15,7 @@
       <div class="box-aside">   
         <div class="aside-wrap">  
           <div class="headline">
-            <em class="J_num num">{{index + 1}}/{{len}}</em>{{title}} <a class="close action" data-action="close" href="#nowhere">&times;</a>
+            <em class="J_num num">{{index+1}}/{{len}}</em>{{title}} <a class="close action" data-action="close" href="#nowhere">&times;</a>
           </div>  
           {{#if desc}}
           <p class="J_desc desc">{{prefix}}: {{{desc}}}</p>  

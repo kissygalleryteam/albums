@@ -3,7 +3,8 @@ KISSY.add(function(S, Overlay, DD){
   var drag;
   var dialog = new S.Dialog({
       width: '100%',
-      elCls: 'albums-dialog'
+      elCls: 'albums-dialog',
+      closable:false
   });
 
   var contentEl;

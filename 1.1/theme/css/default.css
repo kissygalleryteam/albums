@@ -20,6 +20,9 @@
 .albums-dialog .ks-ext-close {
   display: none;
 }
+.ks-dialog-hidden{
+    display: none;
+}
 .album-mask {
   overflow: hidden !important;
 }

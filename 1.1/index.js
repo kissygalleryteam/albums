@@ -68,9 +68,7 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate) {
       if (!baseEl.length) return;
       //调用setter，传递一个参数1，本身没有意义，最终id会是通过guid生成的
       this.set('id', 1);
-
       dialog.render();
-
       this._bindEvent();
       this.dialog = dialog;
 
@@ -86,7 +84,6 @@ KISSY.add(function (S, Node, Base, Overlay, Anim, dialog, rotate) {
       }
 
       this.fire('initialized');
-
     },
 
     hide: function(){

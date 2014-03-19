@@ -130,6 +130,7 @@ KISSY.add('gallery/albums/1.1/theme/weibo',function(S, Node, Base, TPL, XTemplat
         index: index,
         len: len,
         h: viewH - padding[0] - padding[2],
+        hh: viewH - padding[0] - padding[2] - 20,
         w: S.UA.ie === 6 ? viewW - padding[1] - padding[3] : null,
         desc: $(target).attr('data-desc') || '',
         theme: 'theme-' + this.get('name'),

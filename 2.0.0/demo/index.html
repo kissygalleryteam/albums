@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Albums demo</title>
+    <script src="//g.tbcdn.cn/kissy/k/1.4.0/seed-min.js" charset="utf-8"></script>
+<script>var S = KISSY;S.config({packages:[{name:"kg",path:"http://g.tbcdn.cn/kg/",charset:"utf-8",ignorePackageNameInUri:true}]});if (S.Config.debug){var srcPath = "../";S.config({packages:[{name:"kg/albums/2.0.0",path:srcPath,charset:"utf-8",ignorePackageNameInUri:true}]});}</script></head>
+<body>
+<style type="text/css">
+body {
+  width: 800px;
+  margin: 0 auto;
+}
+#weibo-box img,
+#sun-box img {
+  padding-right: 4px;
+}
+</style>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="albums-content">
+  <h2>模式1</h2>
+  <img class="J_ImgDD" data-desc="In this example lightboxes are automatically disabled on small screen size and default behavior of link is triggered" data-original-url="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_b.jpg" src="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_s.jpg" width="75" height="75">
+  <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8382/8558295631_0f56c1284f_b.jpg" src="http://farm9.staticflickr.com/8382/8558295631_0f56c1284f_s.jpg" width="75" height="75">
+  <img class="J_ImgDD" data-original-url="http://ww4.sinaimg.cn/bmiddle/9be419dbjw1e99i7mdfikj20c827p18i.jpg" src="http://ww4.sinaimg.cn/thumbnail/9be419dbjw1e99i7mdfikj20c827p18i.jpg">
+  <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8225/8558295635_b1c5ce2794_b.jpg" src="http://farm9.staticflickr.com/8225/8558295635_b1c5ce2794_s.jpg" width="75" height="75">
+  <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8383/8563475581_df05e9906d_b.jpg" src="http://farm9.staticflickr.com/8383/8563475581_df05e9906d_s.jpg" width="75" height="75">
+  <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8235/8559402846_8b7f82e05d_b.jpg" src="http://farm9.staticflickr.com/8235/8559402846_8b7f82e05d_s.jpg" width="75" height="75">
+  <img class="J_ImgDD" data-original-url="http://farm9.staticflickr.com/8235/8558295467_e89e95e05a_b.jpg" src="http://farm9.staticflickr.com/8235/8558295467_e89e95e05a_s.jpg" width="75" height="75">
+  <img class="J_ImgDD" src="http://img02.taobaocdn.com/tps/i2/T1US_oXgpXXXcxA5cP-760-578.jpg_80x80.jpg" data-desc="亲，请提供卖家存在违规的阿里旺旺聊天记录。&lt;br&gt;（&lt;a href=&quot;http://service.taobao.com/support/knowledge-2.0.06655.htm&quot; target=&quot;_blank&quot;&gt;聊天记录截图方法&lt;/a&gt;；&lt;nbsp;&gt;&lt;nbsp;&gt;&lt;a href=&quot;http://service.taobao.com/support/knowledge-1139893.htm&quot; target=&quot;_blank&quot;&gt;举证号提取方法&lt;/a&gt;）" data-original-url="http://img02.taobaocdn.com/tps/i2/T1US_oXgpXXXcxA5cP-760-578.jpg" alt="" data-index="0">
+</div>
+
+<script>
+var S = KISSY;
+if (S.Config.debug) {
+  var srcPath = "../../../";
+  S.config({
+    packages:[
+      {
+      name:"gallery-back",
+      path: srcPath,
+      charset: "utf-8",
+      ignorePackageNameInUri: true
+    }
+    ]
+  });
+}
+
+S.use('kg/albums/2.0.0/index', function (S, Albums) {
+  var albums = new Albums({baseEl: '.albums-content'});
+})
+</script>
+
+<h2>flickr Rain tag search</h2>
+<div id="sun-box"></div>
+
+<h2>flickr rain tag search, theme weibo</h2>
+<div id="weibo-box"></div>
+
+<script>
+  function getPics(callback){
+    var url = 'http://api.flickr.com/services/rest/';
+    var data = {
+      method: 'flickr.photos.search',
+      api_key: 'f0540914e6dbc6634166ded6e46e0beb',
+      tags: 'rain',
+      per_page: 20,
+      format: 'json'
+    };
+
+    S.io({
+      url: url,
+      data: data,
+      dataType: 'jsonp',
+      jsonpCallback: 'jsonFlickrApi'
+    }).then(function(argv){
+      var ret = argv[0];
+      if (ret.stat == 'fail') {
+        callback(ret);
+      } else {
+        callback(null, ret.photos);
+      }
+    }).fail(function(e){
+      callback(e, {});
+    });
+  }
+
+  function getHtml(photos){
+
+    var html = '';
+    var tpl = 'http://farm{farm}.staticflickr.com/{server}/{id}_{secret}_{size}.jpg"';
+
+    S.each(photos, function(photo){
+
+      photo.size = 's';
+      var src = S.substitute(tpl, photo);
+      photo.size = 'b';
+      var original = S.substitute(tpl, photo);
+
+      html += S.substitute('<img src="{src}" data-original-url="{original}" data-desc="{title}"/>', {
+        src: src,
+        original: original,
+        title: photo.title
+      });
+
+    });
+    return html;
+  }
+
+  KISSY.use('kg/albums/2.0.0/index, ajax, kg/albums/2.0.0/theme/weibo', function(S, Albums, io){
+
+    getPics(function(err, json){
+      if (err) {
+        S.all('#sun-box').html(err.message || 'error happend, flickr get picture fail!');
+        return;
+      }
+
+      if (json.photo && json.photo.length) {
+
+        var html1 = getHtml(json.photo.slice(0, 10));
+        S.all('#sun-box').html(html1);
+        var albums = new Albums({baseEl: '#sun-box', img: 'img'});
+
+        var html2 = getHtml(json.photo.slice(10));
+        S.all('#weibo-box').html(html2);
+        var albums = new Albums({
+          baseEl: '#weibo-box',
+          theme: 'kg/albums/2.0.0/theme/weibo'
+        });
+
+      }
+
+    });
+  });
+</script>
+
+</body>
+</html>

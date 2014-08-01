@@ -1,0 +1,175 @@
+@import "../icons/icons.css";
+@import "./mixin.less";
+
+.albums-dialog {
+  position: fixed;
+  _position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10003;
+
+}
+
+.theme-weibo {
+  .bgfade(#000, 0.75);
+  width: 100%;
+
+  .theme-wrap { 
+    padding: 20px; 
+    overflow-y: auto;
+  }
+
+  ::-webkit-scrollbar {
+    height: 16px;
+    overflow: visible;
+    width: 16px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,.4);
+    background-clip: padding-box;
+    border: solid transparent;
+    border-width: 1px 1px 1px 6px;
+    min-height: 28px;
+    padding: 100px 0 0;
+    box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);
+  }
+
+  .close {
+    display: block;
+    font-size: 18px;
+    line-height: 20px;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    text-decoration: none;
+    position: absolute;
+    right: 15px;
+    top: 18px;
+    &:hover {
+      background-color: #666;
+      color: #eee;
+    }
+  }
+
+  img { max-width: none !important; }
+
+  .album-loading {
+    background: url(http://img03.taobaocdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat center center #fff;
+  }
+
+  .box-main {
+    position: relative;
+    margin-right: 230px;
+    background-color: #000;
+    height: 100%;
+
+    img {
+      -webkit-transition: -webkit-transform .2s linear;
+      -moz-transition: -moz-transform .2s linear;
+      -ms-transition: -ms-transform .2s linear;
+      -o-transition: -o-transform .2s linear;
+      transition: transform .2s linear;
+    }
+
+  }
+
+  .box-aside {
+    width: 230px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-bottom: -4000px;
+    padding-bottom: 4000px;
+    background-color: #fafafa;
+
+    .aside-wrap {
+      padding: 10px;
+    }
+
+    .headline {
+
+      line-height: 38px;
+      font-size: 14px;
+      border-bottom: 1px solid #E0E0E0;
+
+      .num {
+        font-size: 16px;
+        font-weight: bold;
+        padding-right: 10px;
+      }
+    }
+
+    .desc {
+      line-height: 2em;
+      padding-top: 8px;
+    }
+
+  }
+
+  .box { 
+    position: relative;
+    overflow: hidden;
+  }
+
+  .handers {
+
+    .next, .prev {
+      .hide-text();
+      position: absolute;
+      z-index: 10;
+      top: 45%;
+      cursor: pointer;
+    }
+
+    .prev { left: 45px; }
+
+    .next { right: 275px; }
+
+
+  }
+
+  .step-last .next, 
+  .step-start .prev {
+    visibility: hidden;
+  }
+
+  .album-action-bar {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    _bottom: 67px;
+    z-index: 11;
+  }
+
+
+
+}
+
+.fullscreen {
+
+  background-color: #000;
+
+  .ks-ext-close {
+    top: 20px;
+    right: 20px;
+  }
+
+  .theme-wrap { padding: 0; }
+
+  .box { border: none; }
+
+  .box-aside { display: none; }
+
+  .box-main { margin-right: 0; }
+
+  .handers {
+    .next { right: 10px; }
+    .prev { left: 10px; }
+  }
+
+  .box-main { 
+    background-color: #000; 
+    border-color: #000;
+  }
+
+}

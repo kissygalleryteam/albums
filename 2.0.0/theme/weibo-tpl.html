@@ -1,0 +1,28 @@
+<div class="theme-box {{theme}}">
+  <div class="theme-wrap" style="height: {{h}}px">
+    <div class="handers">
+      {{#if len !== 1}}
+      <span class="prev album-prev hander">&lt;</span>   
+      <span class="next album-next hander">&gt;</span>   
+      {{/if}}
+    </div>
+    <div class="box">   
+
+      <div class="box-main album-loading" style="min-height: {{h}}px; {{#if w}}width: {{w}}px; {{/if}}">  
+        <img class="{{imgCls}}" src="{{src}}" style="display: none" alt="" />
+      </div>   
+
+      <div class="box-aside">   
+        <div class="aside-wrap">  
+          <div class="headline">
+            <em class="J_num num">{{index + 1}}/{{len}}</em>{{title}} <a class="close action" data-action="close" href="#nowhere">&times;</a>
+          </div>  
+          {{#if desc}}
+          <p class="J_desc desc">{{prefix}}: {{{desc}}}</p>  
+          {{/if}}
+        </div>   
+      </div>   
+
+    </div>
+  </div>
+</div>

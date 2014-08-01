@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mocha Test for Albums</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="mocha.css" />
+    <!--<link rel="stylesheet" href="../demo/bootstrap.css" />-->
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
+    <style type="text/css">
+    #rain-tag {
+      width: 800px;
+      margin: 0 auto;
+    }
+    #rain-tag img { padding-right: 4px; }
+    #hidden { display: none; }
+    </style>
+  </head>
+
+  <body>
+
+    <div id="mocha">图片加载5s</div>
+    <div id="rain-tag">
+      <img id="rain-img-0" width="75" height="75" src="http://farm8.staticflickr.com/7402/10290909215_48d32e4cc2_s.jpg"  data-original-url="http://farm8.staticflickr.com/7402/10290909215_48d32e4cc2_b.jpg" data-desc="IMG_2316" data-index="0">
+      <img id="rain-img-1" width="75" height="75" src="http://farm8.staticflickr.com/7342/10290797834_19a0403263_s.jpg"  data-original-url="http://farm8.staticflickr.com/7342/10290797834_19a0403263_b.jpg" data-desc="IMG_2310" data-index="1">
+      <!--<img id="rain-img-2" width="75" height="75" src="http://farm6.staticflickr.com/5447/10290910705_d16bc70667_s.jpg"  data-original-url="http://farm6.staticflickr.com/5447/10290910705_d16bc70667_b.jpg" data-desc="IMG_2247" data-index="2">-->
+      <img id="rain-img-2" data-original-url="http://farm9.staticflickr.com/8382/8558295631_0f56c1284f_b.jpg" src="http://farm9.staticflickr.com/8382/8558295631_0f56c1284f_s.jpg" width="75" height="75">
+      <img id="rain-img-3" data-original-url="http://ww4.sinaimg.cn/bmiddle/9be419dbjw1e99i7mdfikj20c827p18i.jpg" src="http://ww4.sinaimg.cn/thumbnail/9be419dbjw1e99i7mdfikj20c827p18i.jpg">
+      <!--<img id="rain-img-3" width="75" height="75" src="http://farm3.staticflickr.com/2823/10290910815_683d43d69c_s.jpg"  data-original-url="http://farm3.staticflickr.com/2823/10290910815_683d43d69c_b.jpg" data-desc="IMG_1851" data-index="3">-->
+      <img id="rain-img-4" width="75" height="75" src="http://farm6.staticflickr.com/5539/10290909855_bda475dcb3_s.jpg"  data-original-url="http://farm6.staticflickr.com/5539/10290909855_bda475dcb3_b.jpg" data-desc="IMG_2279" data-index="4"><img id="rain-img-5" width="75" height="75" src="http://farm6.staticflickr.com/5500/10290896366_6c62186bd6_s.jpg"  data-original-url="http://farm6.staticflickr.com/5500/10290896366_6c62186bd6_b.jpg" data-desc="IMG_2256" data-index="5"><img id="rain-img-6" width="75" height="75" src="http://farm8.staticflickr.com/7362.0.00290910655_596ba64273_s.jpg"  data-original-url="http://farm8.staticflickr.com/7362.0.00290910655_596ba64273_b.jpg" data-desc="IMG_2242" data-index="6"><img id="rain-img-7" width="75" height="75" src="http://farm3.staticflickr.com/2860/10290798584_1cda3c2e12_s.jpg"  data-original-url="http://farm3.staticflickr.com/2860/10290798584_1cda3c2e12_b.jpg" data-desc="IMG_2318" data-index="7">
+    </div>
+    <div id="hidden"></div>
+
+    <script src="mocha.js"></script>
+    <script src="expect.js"></script>
+    <script>mocha.setup('bdd')</script>
+
+    <script type="text/javascript">
+
+      var S = KISSY;
+
+      if (S.Config.debug) {
+        var srcPath = "../../../";
+        S.config({
+          packages:[
+            {
+              name: "kg",
+              path: srcPath,
+              charset: "utf-8",
+              ignorePackageNameInUri: true
+            }
+          ]
+        });
+      };
+
+      S.use('kg/albums/2.0.0/spec/albums')
+    </script>
+  </body>
+</html>
